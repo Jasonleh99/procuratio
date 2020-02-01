@@ -8,4 +8,5 @@ import com.hackuci.potatoes.procuratio.models.Document;
 
 public interface DocumentRepository extends JpaRepository<Document, Long>{
 	List<Document> findByTitle(String title);
+	List<Document> findByTeacher(Teacher teacher);
 }
