@@ -1,21 +1,23 @@
 package com.hackuci.potatoes.procuratio.models;
 
+import java.sql.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="Assignments")
-
+@Table(name="assignments")
 public class Assignment {
 
 	@Id
@@ -23,13 +25,15 @@ public class Assignment {
 	
 	private String title;
 	
-	private String assignment_summary;
-	//date object
-	private String date;
+	private String summary;
 	
-	private String submission_link;
+	private String subject;
 	
-	private int score;
+	private Date date;
 	
-	private int total_score;
+	@ManyToOne
+	private Teacher teacher;
+	
+	@OneToMany
+	private Set<Student> student;
 }

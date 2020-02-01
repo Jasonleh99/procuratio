@@ -1,30 +1,26 @@
 package com.hackuci.potatoes.procuratio.models;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="grades")
-public class Grade {
-
-	@Id
-	private Long id;
-	
-	private String subject;
-	
-	private int subject_average_score;
-	
-	private int total_score;
+@Table(name="assignment_student")
+public class AssignmentStudent {
+	@OneToOne
+	private Assignment assignment;
 	
 	@OneToOne
 	private Student student;
+	
+	private String submission_link;
+	
+	private int score;
+	
+	private int total_score;
 }
