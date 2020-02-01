@@ -20,7 +20,7 @@ public class GradeController {
 
 	private GradeRepository gradeRepository;
 	
-	public GradeController (GradeRepository GradeRepository) {
+	public GradeController (GradeRepository gradeRepository) {
 		super();
 		this.gradeRepository = gradeRepository;
 	}
