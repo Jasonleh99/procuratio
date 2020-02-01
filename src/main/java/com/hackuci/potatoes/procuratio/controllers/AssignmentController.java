@@ -34,16 +34,15 @@ public class AssignmentController {
 		this.studentRepository = studentRepository;
 	}
 	
-	@GetMapping("/{studentId}")
+	@GetMapping("/student/{studentId}")
 	ResponseEntity<?> getAssignment(@PathVariable Long studentId){
 		Optional<Student> student = studentRepository.findById(studentId);
 		return student.map(response -> ResponseEntity.ok().body(asRepository.findByStudent(response)))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
-	@GetMapping("/{studentId}/{assignmentId}")
-	ResponseEntity<?> getStudentAssignment(@PathVariable Long assignmentId){
-		//TODO: find by student id && assignment id
+	@GetMapping("/{assignmentId}")
+	ResponseEntity<?> getStudentAssignment(@PathVariable Long assignmentId) {
 		Optional<Assignment> assignment= assignmentRepository.findById(assignmentId);
 		return assignment.map(response -> ResponseEntity.ok().body(response))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
