@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.hackuci.potatoes.procuratio.models.Assignment;
 import com.hackuci.potatoes.procuratio.models.Parent;
 import com.hackuci.potatoes.procuratio.models.Student;
+import com.hackuci.potatoes.procuratio.models.Teacher;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 	Student findByName(String name);
 	Student findByLogin(String username);
-	List<Student> findByParent(Parent parent);
+	Student findByParent(Parent parent);
 	List<Student> findByAssignment(Assignment assignment);
+	List<Student> findByTeacher(Teacher teacher);
 }
