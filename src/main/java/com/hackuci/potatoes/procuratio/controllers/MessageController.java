@@ -42,11 +42,12 @@ public class MessageController {
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
-	@PostMapping("/{userid}/new_message")
+	@PostMapping("/new_message")
 	ResponseEntity<Message> createMessage(@Valid @RequestBody Message message) throws URISyntaxException{
 		Message result = messageRepository.save(message);
-		return ResponseEntity.created(new URI("/api/message")).body(result);
+		return ResponseEntity.created(new URI("/api/message" + result.getId())).body(result);
 	}
+	
 
 
 }
