@@ -33,7 +33,7 @@ public AnnouncementController(AnnouncementRepository announcementRepository) {
 		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
 		return teacher.map(response -> ResponseEntity.ok().body(
 				announcementRepository.findByTeacher(response)))
-			.orElse(ResponseEntity<>(HttpStatus.NOT_FOUND));
+			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		//going to get all the announcements from the repository
 	}
 	
