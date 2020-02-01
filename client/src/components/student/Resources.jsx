@@ -15,17 +15,17 @@ const styles = {
   }
 };
 
-class Announcements extends Component {
+class Resources extends Component {
   state = {
-    announcements: [
+    resources: [
       { 
         title:
-          "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-        body: "hey hey hey"
+          "Resource 1",
+        body: "YES"
       },
       {
-        title: "sample title",
-        body: "how is it already 2"
+        title: "RESOURCE 2",
+        body: "F U C K"
       }
     ],
     isLoading: true
@@ -36,8 +36,8 @@ class Announcements extends Component {
   } */
 
   render() {
-    const { announcements } = this.state;
     const { classes } = this.props;
+    const { resources } = this.state;
 
     return (
       <>
@@ -50,18 +50,18 @@ class Announcements extends Component {
           spacing={2}
         >
           <Grid item>
-            <Typography variant="h2">Announcements</Typography>
+            <Typography variant="h2">Resources</Typography>
           </Grid>
           <Grid item container>
             <Grid item xs={1} />
             <Grid item xs={10}>
-              {announcements.map(announce => (
+              {resources.map(resource => (
                 <Paper style={{ marginBottom: "100px" }}>
                   <div>
-                    <Typography variant="h5">{announce.title}</Typography>
+                    <Typography variant="h4">{resource.title}</Typography>
                   </div>
                   <div>
-                    <Typography variant="p">{announce.body}</Typography>
+                    <Typography variant="h6">{resource.body}</Typography>
                   </div>
                 </Paper>
               ))}
@@ -74,4 +74,4 @@ class Announcements extends Component {
   }
 }
 
-export default withStyles(styles)(Announcements);
+export default withStyles(styles)(Resources);

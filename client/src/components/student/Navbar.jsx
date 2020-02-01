@@ -11,7 +11,8 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    position: "absolute"
+    position: "absolute",
+    zIndex: "1"
   },
   drawer: {
     width: 240
@@ -30,15 +31,21 @@ const Navbar = () => {
       <MenuItem component={Link} to={{ pathname: "/" }}>
         Home
       </MenuItem>
-      <MenuItem component={Link} to={{ pathname: "/announcement" }}>
+      <MenuItem component={Link} to={{ pathname: "/announcements" }}>
         Announcements
       </MenuItem>
       <MenuItem component={Link} to={{ pathname: "/assignments" }}>
         Assignments
       </MenuItem>
-      <MenuItem>Grades</MenuItem>
-      <MenuItem>Resources</MenuItem>
-      <MenuItem>Contact Teacher</MenuItem>
+      <MenuItem component={Link} to={{ pathname: "/grades" }}>
+        Grades
+      </MenuItem>
+      <MenuItem component={Link} to={{ pathname: "/resources" }}>
+        Resources
+      </MenuItem>
+      <MenuItem component={Link} to={{ pathname: "/contact"}}>
+        Contact Teacher
+      </MenuItem>
     </MenuList>
   );
 
@@ -54,7 +61,7 @@ const Navbar = () => {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <Button onClick={toggleMenu(true)}>Menu</Button>
       <Drawer
         open={state.displayMenu}
