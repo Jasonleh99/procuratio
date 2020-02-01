@@ -24,7 +24,8 @@ class Announcements extends Component {
   state = {
     announcements: [
       {
-        title: "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
+        title:
+          "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
         body: "hey hey hey"
       },
       {
@@ -60,7 +61,7 @@ class Announcements extends Component {
             <Grid item xs={1} />
             <Grid item xs={10}>
               {announcements.map(announce => (
-                <Paper style={{marginBottom: '100px'}}>
+                <Paper style={{ marginBottom: "100px" }}>
                   <div>
                     <Typography variant="h5">{announce.title}</Typography>
                   </div>

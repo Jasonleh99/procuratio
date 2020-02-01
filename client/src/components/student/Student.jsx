@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Navbar from './Navbar';
+import Navbar from "./Navbar";
 
 class Student extends Component {
-    
-    render() {
-        return <Navbar />
-    }
+  render() {
+    return <Navbar />;
+  }
 }
- 
+
 export default Student;
