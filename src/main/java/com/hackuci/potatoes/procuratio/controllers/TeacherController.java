@@ -40,7 +40,7 @@ public class TeacherController {
 		
 		return teacher.map(response -> 
 			ResponseEntity.ok().body(studentRepository.findByTeacher(response)))
-		.orElse(ResponseEntity<>(HttpStatus.NOT_FOUND));
+		.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
 }
