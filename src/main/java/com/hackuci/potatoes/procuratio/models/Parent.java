@@ -2,7 +2,6 @@ package com.hackuci.potatoes.procuratio.models;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
