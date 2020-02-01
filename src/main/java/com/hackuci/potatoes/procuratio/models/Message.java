@@ -1,11 +1,9 @@
 package com.hackuci.potatoes.procuratio.models;
 
 import java.sql.Date;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 

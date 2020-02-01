@@ -9,6 +9,6 @@ import com.hackuci.potatoes.procuratio.models.AssignmentStudent;
 import com.hackuci.potatoes.procuratio.models.Student;
 
 public interface AssignmentStudentRepository extends JpaRepository<AssignmentStudent, Long>{
-	AssignmentStudent findByStudent(Student student);
+	List<AssignmentStudent> findByStudent(Student student);
 	List<AssignmentStudent> findByAssignment(Assignment assignment);
 }

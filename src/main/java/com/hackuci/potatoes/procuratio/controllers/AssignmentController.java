@@ -1,6 +1,7 @@
 package com.hackuci.potatoes.procuratio.controllers;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -11,27 +12,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hackuci.potatoes.procuratio.models.Assignment;
+import com.hackuci.potatoes.procuratio.models.AssignmentStudent;
+import com.hackuci.potatoes.procuratio.models.Student;
 import com.hackuci.potatoes.procuratio.repositories.AssignmentRepository;
+import com.hackuci.potatoes.procuratio.repositories.AssignmentStudentRepository;
+import com.hackuci.potatoes.procuratio.repositories.StudentRepository;
 
 @RestController
 @RequestMapping("/api/assignments")
 public class AssignmentController {
 	private AssignmentRepository assignmentRepository;
+	private AssignmentStudentRepository asRepository;
+	private StudentRepository studentRepository;
 	
-	public AssignmentController (AssignmentRepository assignmentRepository) {
+	public AssignmentController (AssignmentRepository assignmentRepository,
+			AssignmentStudentRepository asRepository,
+			StudentRepository studentRepository) {
 		super();
 		this.assignmentRepository = assignmentRepository;
-	}
-
-	@GetMapping("/")
-	Collection<Assignment> getAssignments(){
-		return assignmentRepository.findAll();
+		this.asRepository = asRepository;
+		this.studentRepository = studentRepository;
 	}
 	
 	@GetMapping("/{studentId}")
 	ResponseEntity<?> getAssignment(@PathVariable Long studentId){
-		Optional<Assignment> assignment= assignmentRepository.findById(studentId);
-		return assignment.map(response -> ResponseEntity.ok().body(response))
+		Optional<Student> student = studentRepository.findById(studentId);
+		return student.map(response -> ResponseEntity.ok().body(asRepository.findByStudent(response)))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
@@ -42,6 +48,4 @@ public class AssignmentController {
 		return assignment.map(response -> ResponseEntity.ok().body(response))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
-	
-	
 }
