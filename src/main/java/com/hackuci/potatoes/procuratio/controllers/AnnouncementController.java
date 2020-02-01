@@ -37,5 +37,4 @@ public AnnouncementController(AnnouncementRepository announcementRepository) {
 		//going to get all the announcements from the repository
 	}
 	
-	
 }
