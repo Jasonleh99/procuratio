@@ -21,8 +21,6 @@ import lombok.NonNull;
 public class User {
 	
 	@Id
-	@NonNull
-	@GeneratedValue
 	private Long id;
 	
 	private String name;

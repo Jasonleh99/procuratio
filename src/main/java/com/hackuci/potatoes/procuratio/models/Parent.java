@@ -23,8 +23,6 @@ import lombok.NonNull;
 public class Parent {
 
 	@Id
-	@NonNull
-	@GeneratedValue
 	private Long id;
 	
 	@OneToOne
