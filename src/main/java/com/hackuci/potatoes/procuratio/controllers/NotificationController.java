@@ -57,7 +57,7 @@ public class NotificationController {
 	@PostMapping("/new_notification")
 	ResponseEntity<Notification> createNotification(@Valid @RequestBody Notification notification) throws URISyntaxException{
 		Notification result = notificationRepository.save(notification);
-		return ResponseEntity.created(new URI("/api/notification"+ result.getId())).body(result);
+		return ResponseEntity.created(new URI("/api/notification/"+ result.getId())).body(result);
 	}
 	
 	@PutMapping("/new_notification")

@@ -50,7 +50,7 @@ public class DocumentController {
 	@PostMapping("/new_document")
 	ResponseEntity<Document> createDocument(@Valid @RequestBody Document document) throws URISyntaxException{
 		Document result = documentRepository.save(document);
-		return ResponseEntity.created(new URI("/api/message" + result.getId())).body(result);
+		return ResponseEntity.created(new URI("/api/message/" + result.getId())).body(result);
 	}
 	
 	@PutMapping("/new_document")

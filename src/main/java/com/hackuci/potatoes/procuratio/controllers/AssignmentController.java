@@ -111,4 +111,10 @@ public class AssignmentController {
 		
 		gradeRepository.save(grade);
 	}
+
+	@PutMapping("/update_submission")
+	ResponseEntity<AssignmentStudent> updateAssignmentStudent(@Valid @RequestBody AssignmentStudent assignmentStudent){
+		AssignmentStudent result = asRepository.save(assignmentStudent);
+		return ResponseEntity.ok().body(result);
+	}
 }

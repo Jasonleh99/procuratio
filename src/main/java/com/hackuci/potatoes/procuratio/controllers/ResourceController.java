@@ -48,7 +48,7 @@ public class ResourceController {
 	@PostMapping("/new_resource")
 	ResponseEntity<Resource> createResource(@Valid @RequestBody Resource resource) throws URISyntaxException{
 		Resource result = resourceRepository.save(resource);
-		return ResponseEntity.created(new URI("/api/resource" + result.getId())).body(result);
+		return ResponseEntity.created(new URI("/api/resource/" + result.getId())).body(result);
 	}
 	
 	@PutMapping("/update_resource")
