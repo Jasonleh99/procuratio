@@ -32,8 +32,16 @@ public class ParentController {
 		Optional<Student> student = sRepo.findByPairid(pairid);
 		Optional<Parent> parent = pRepo.findById(parentid);
 		if (parent.isPresent() && student.isPresent()) {
-			parent.get().setStudent(student.get());
-			student.get().setParent(parent.get());
+			Student tempStudent = new Student();
+			tempStudent.setId(student.get().getId());
+			tempStudent.setPairid(student.get().getPairid());
+			tempStudent.setUser(student.get().getUser());
+			tempStudent.setTeacher(student.get().getTeacher());
+			Parent tempParent = new Parent();
+			tempParent.setId(parent.get().getId());
+			tempParent.setMessages(parent.get().getMessages());
+			parent.get().setStudent(tempStudent);
+			student.get().setParent(tempParent);
 			
 			sRepo.save(student.get());
 			Parent result = pRepo.save(parent.get());
