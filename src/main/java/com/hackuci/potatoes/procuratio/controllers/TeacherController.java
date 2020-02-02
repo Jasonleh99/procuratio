@@ -1,6 +1,8 @@
 package com.hackuci.potatoes.procuratio.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.xml.ws.Response;
@@ -61,6 +63,22 @@ public class TeacherController {
 		return teacher.map(response -> 
 			ResponseEntity.ok().body(gradeRepository.findByTeacher(response)))
 			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+	
+	@GetMapping("/parentroster/{teacherid}")
+	ResponseEntity<?> getParents(@PathVariable Long teacherid) {
+		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
+		if (teacher.isPresent()) {
+			List<Student> students = studentRepository.findByTeacher(teacher.get());
+			List<Parent> parents = new ArrayList<>();
+			for (Student student: students) {
+				if (student.getParent() != null) {
+					parents.add(student.getParent());
+				}
+			}
+			return ResponseEntity.ok().body(parents);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping("/student/{studentid}")
