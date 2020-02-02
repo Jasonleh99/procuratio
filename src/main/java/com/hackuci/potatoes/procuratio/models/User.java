@@ -1,8 +1,11 @@
 package com.hackuci.potatoes.procuratio.models;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.hackuci.potatoes.procuratio.UserType;
@@ -29,4 +32,7 @@ public class User {
 	private String password;
 	
 	private UserType userType;
+	
+	@OneToMany
+	private Set<Message> messages;
 }

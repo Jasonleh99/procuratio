@@ -35,4 +35,23 @@ public class Teacher{
 	
 	@OneToMany
 	private Set<Student> class_roster;
+	
+	@OneToMany
+	private Set<Announcement> announcements;
+	
+	@OneToMany
+	private Set<Document> documents;
+	
+	@OneToMany
+	private Set<Assignment> assignments;
+	
+	@OneToMany
+	private Set<Grade> grades;
+	
+	@OneToMany
+	private Set<Resource> resources;
+	
+	@OneToMany
+	private Set<Notification> notifications;
+	
 }

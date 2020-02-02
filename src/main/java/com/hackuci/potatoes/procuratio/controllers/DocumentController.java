@@ -29,9 +29,11 @@ public class DocumentController {
 	
 	private TeacherRepository teacherRepository;
 	
-	public DocumentController (DocumentRepository documentRepository) {
+	public DocumentController (DocumentRepository documentRepository,
+			TeacherRepository teacherRepository) {
 		super();
 		this.documentRepository = documentRepository;
+		this.teacherRepository = teacherRepository;
 	
 	}
 	

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hackuci.potatoes.procuratio.models.Notification;
+import com.hackuci.potatoes.procuratio.models.Parent;
 import com.hackuci.potatoes.procuratio.models.Teacher;
 import com.hackuci.potatoes.procuratio.repositories.NotificationRepository;
+import com.hackuci.potatoes.procuratio.repositories.ParentRepository;
 import com.hackuci.potatoes.procuratio.repositories.TeacherRepository;
 
 @RestController
@@ -28,10 +30,15 @@ public class NotificationController {
 
 	private NotificationRepository notificationRepository;
 	private TeacherRepository teacherRepository;
+	private ParentRepository parentRepository;
 	
-	public NotificationController (NotificationRepository notificationRepository) {
+	public NotificationController (NotificationRepository notificationRepository,
+			TeacherRepository teacherRepository,
+			ParentRepository parentRepository) {
 		super();
 		this.notificationRepository = notificationRepository;
+		this.teacherRepository = teacherRepository;
+		this.parentRepository = parentRepository;
 	}
 	
 	@GetMapping("/")
@@ -39,18 +46,18 @@ public class NotificationController {
 		return notificationRepository.findAll();
 	}
 	
-	@GetMapping("/{parentId}")
-	ResponseEntity<?> getNotification(@PathVariable Long parentId){
-		Optional<Notification> notification= notificationRepository.findById(parentId);
-		return notification.map(response -> ResponseEntity.ok().body(response))
-				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	@GetMapping("/parent/{parentid}")
+	ResponseEntity<?> getNotificationparent(@PathVariable Long parentid){
+		Optional<Parent> parent = parentRepository.findById(parentid);
+		return parent.map(response -> ResponseEntity.ok().body(notificationRepository.findByParent(response)))
+			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
-	@GetMapping("/{teacherId}")
-	ResponseEntity<?> getTNotification(@PathVariable Long teacherId){
-		Optional<Teacher> teacher = teacherRepository.findById(teacherId);
+	@GetMapping("/teacher/{teacherid}")
+	ResponseEntity<?> getNotificationteacher(@PathVariable Long teacherid){
+		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
 		return teacher.map(response -> ResponseEntity.ok().body(notificationRepository.findByTeacher(response)))
-				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
 	@PostMapping("/new_notification")

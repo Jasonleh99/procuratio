@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.hackuci.potatoes.procuratio.Subject;
 import com.hackuci.potatoes.procuratio.models.Assignment;
 import com.hackuci.potatoes.procuratio.models.Teacher;
 
@@ -13,5 +14,5 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 	List<Assignment> findByTitle(String title);
 	List<Assignment> findByDate(Date date);
 	List<Assignment> findByTeacher(Teacher teacher);
-	List<Assignment> findBySubject(String subject);
+	List<Assignment> findBySubject(Subject subject);
 }

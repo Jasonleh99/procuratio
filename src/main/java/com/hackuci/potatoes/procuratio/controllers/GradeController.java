@@ -12,16 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hackuci.potatoes.procuratio.models.Assignment;
 import com.hackuci.potatoes.procuratio.models.Grade;
+import com.hackuci.potatoes.procuratio.models.Teacher;
 import com.hackuci.potatoes.procuratio.repositories.GradeRepository;
+import com.hackuci.potatoes.procuratio.repositories.TeacherRepository;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/grades")
 public class GradeController {
 
+	private TeacherRepository teacherRepository;
 	private GradeRepository gradeRepository;
 	
-	public GradeController (GradeRepository gradeRepository) {
+	public GradeController (TeacherRepository teacherRepository,
+			GradeRepository gradeRepository) {
 		super();
+		this.teacherRepository = teacherRepository;
 		this.gradeRepository = gradeRepository;
 	}
 	
@@ -30,11 +35,11 @@ public class GradeController {
 		return gradeRepository.findAll();
 	}
 	
-	@GetMapping("/{studentId}")
-	ResponseEntity<?> getGrade(@PathVariable Long studentId){
-		Optional<Grade> assignment= gradeRepository.findById(studentId);
-		return assignment.map(response -> ResponseEntity.ok().body(response))
-				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	@GetMapping("/{teacherid}")
+	ResponseEntity<?> getGrade(@PathVariable Long teacherid){
+		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
+		return teacher.map(response -> ResponseEntity.ok().body(gradeRepository.findByTeacher(response)))
+			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 }
 //TODO average of grades for each subject - jason 	
 }

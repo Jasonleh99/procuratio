@@ -17,17 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hackuci.potatoes.procuratio.models.Message;
+import com.hackuci.potatoes.procuratio.models.User;
 import com.hackuci.potatoes.procuratio.repositories.MessageRepository;
+import com.hackuci.potatoes.procuratio.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
 	
-	private MessageRepository messageRepository;	
+	private MessageRepository messageRepository;
+	private UserRepository userRepository;
 	
-	public MessageController (MessageRepository messageRepository) {
+	public MessageController (MessageRepository messageRepository,
+			UserRepository userRepository) {
 		super();
 		this.messageRepository = messageRepository;
+		this.userRepository = userRepository;
 	}
 	
 	@GetMapping("/")
@@ -35,11 +40,11 @@ public class MessageController {
 		return messageRepository.findAll();
 	}
 	
-	@GetMapping("/{studentOrParentId}")
-	ResponseEntity<?> getMessage(@PathVariable Long studentOrParentId){
-		Optional<Message> message = messageRepository.findById(studentOrParentId);
-		return message.map(response -> ResponseEntity.ok().body(response))
-				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	@GetMapping("/{userid}")
+	ResponseEntity<?> getMessage(@PathVariable Long userid){
+		Optional<User> user = userRepository.findById(userid);
+		return user.map(response -> ResponseEntity.ok().body(messageRepository.findByTo(response)))
+			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
 	@PostMapping("/new_message")

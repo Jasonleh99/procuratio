@@ -7,11 +7,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Table(name="AssignmentStudent")
+@Table(name="assignmentstudent")
 public class AssignmentStudent {
 	@Id
 	private long id;

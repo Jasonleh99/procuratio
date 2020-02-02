@@ -28,9 +28,11 @@ public class ResourceController {
 	private ResourceRepository resourceRepository;
 	private TeacherRepository teacherRepository;
 	
-	public ResourceController (ResourceRepository resourceRepository) {
-	super();
-	this.resourceRepository = resourceRepository;
+	public ResourceController (ResourceRepository resourceRepository,
+			TeacherRepository teacherRepository) {
+		super();
+		this.resourceRepository = resourceRepository;
+		this.teacherRepository = teacherRepository;
 	}
 	
 	@GetMapping("/")

@@ -13,4 +13,5 @@ public interface AssignmentStudentRepository extends JpaRepository<AssignmentStu
 	List<AssignmentStudent> findByStudent(Student student);
 	List<AssignmentStudent> findByAssignment(Assignment assignment);
 	Optional<AssignmentStudent> findByAssignmentAndStudent(Assignment assignment, Student student);
+	void deleteByAssignmentAndStudent(Assignment assignment, Student student);
 }

@@ -7,10 +7,13 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hackuci.potatoes.procuratio.Subject;
 import com.hackuci.potatoes.procuratio.models.Assignment;
 import com.hackuci.potatoes.procuratio.models.AssignmentStudent;
 import com.hackuci.potatoes.procuratio.models.Grade;
@@ -51,26 +54,25 @@ public class DeleteController {
 		this.grRepo = grRepo;
 	}
 
-	@DeleteMapping("/submission/{assignmentid}/{studentid}")
-	ResponseEntity<?> deleteSubmission(@PathVariable Long assignmentid, @PathVariable Long studentid) {
-
-		Optional<Student> student = stRepo.findById(studentid);
-		Optional<Assignment> assignment = asRepo.findById(assignmentid);
-
-		if (student.isPresent() && assignment.isPresent()) {
-			Optional<AssignmentStudent> submission = astRepo.findByAssignmentAndStudent(assignment.get(),
-					student.get());
-
-			submission.map(response -> {
-				astRepo.delete(response);
-				recalculateGrade(assignment.get().getSubject(), assignment.get().getTeacher());
-				return ResponseEntity.ok().build();
-			}).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	@DeleteMapping("/submission/{submissionid}")
+	ResponseEntity<?> deleteSubmission(@PathVariable Long submissionid) {
+		astRepo.deleteById(submissionid);
+		return ResponseEntity.ok().build();
+//
+//		if (student.isPresent() && assignment.isPresent()) {
+//			Optional<AssignmentStudent> submission = astRepo.findByAssignmentAndStudent(assignment.get(),
+//					student.get());
+//
+//			submission.map(response -> {
+//				astRepo.delete(response);
+//				recalculateGrade(assignment.get().getSubject(), assignment.get().getTeacher());
+//				return ResponseEntity.ok().build();
+//			}).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//		}
+//		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	void recalculateGrade(String subject, Teacher teacher) {
+	void recalculateGrade(Subject subject, Teacher teacher) {
 		List<Assignment> subjectAssignments = asRepo.findBySubject(subject);
 		List<AssignmentStudent> subjectSubmissions = new ArrayList<>();
 		for (Assignment ass : subjectAssignments) {

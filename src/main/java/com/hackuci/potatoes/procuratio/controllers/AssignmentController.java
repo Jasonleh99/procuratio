@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hackuci.potatoes.procuratio.Subject;
 import com.hackuci.potatoes.procuratio.models.Assignment;
 import com.hackuci.potatoes.procuratio.models.AssignmentStudent;
 import com.hackuci.potatoes.procuratio.models.Grade;
@@ -27,6 +28,7 @@ import com.hackuci.potatoes.procuratio.repositories.AssignmentRepository;
 import com.hackuci.potatoes.procuratio.repositories.AssignmentStudentRepository;
 import com.hackuci.potatoes.procuratio.repositories.GradeRepository;
 import com.hackuci.potatoes.procuratio.repositories.StudentRepository;
+import com.hackuci.potatoes.procuratio.repositories.TeacherRepository;
 
 @RestController
 @RequestMapping("/api/assignments")
@@ -35,14 +37,16 @@ public class AssignmentController {
 	private AssignmentStudentRepository asRepository;
 	private StudentRepository studentRepository;
 	private GradeRepository gradeRepository;
+	private TeacherRepository teacherRepository;
 
 	public AssignmentController(AssignmentRepository assignmentRepository, AssignmentStudentRepository asRepository,
-			StudentRepository studentRepository, GradeRepository gradeRepository) {
+			StudentRepository studentRepository, GradeRepository gradeRepository, TeacherRepository teacherRepository) {
 		super();
 		this.assignmentRepository = assignmentRepository;
 		this.asRepository = asRepository;
 		this.studentRepository = studentRepository;
 		this.gradeRepository = gradeRepository;
+		this.teacherRepository = teacherRepository;
 	}
 
 	@GetMapping("/student/{studentId}")
@@ -52,7 +56,14 @@ public class AssignmentController {
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	@GetMapping("/assignments/{studentid}/{assignmentid}")
+	@GetMapping("/teacher/{teacherid}")
+	ResponseEntity<?> getTeacherAssignments(@PathVariable Long teacherid) {
+		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
+		return teacher.map(response -> ResponseEntity.ok().body(assignmentRepository.findByTeacher(response)))
+					.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
+	@GetMapping("/{studentid}/{assignmentid}")
 	ResponseEntity<?> getSubmission(@PathVariable Long studentid, @PathVariable Long assignmentid) {
 		Optional<Student> student = studentRepository.findById(studentid);
 		Optional<Assignment> assignment = assignmentRepository.findById(assignmentid);
@@ -92,7 +103,7 @@ public class AssignmentController {
 		return ResponseEntity.ok().body(result);
 	}
 
-	void recalculateGrade(String subject, Teacher teacher) {
+	void recalculateGrade(Subject subject, Teacher teacher) {
 		List<Assignment> subjectAssignments = assignmentRepository.findBySubject(subject);
 		List<AssignmentStudent> subjectSubmissions = new ArrayList<>();
 		for (Assignment ass : subjectAssignments) {

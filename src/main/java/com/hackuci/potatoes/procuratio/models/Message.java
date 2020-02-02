@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,10 +22,10 @@ public class Message {
 	@Id
 	private Long id;
 	
-	@OneToOne
+	@ManyToOne
 	private User from;
 	
-	@OneToOne
+	@ManyToOne
 	private User to;
 	
 	private String body;

@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.hackuci.potatoes.procuratio.Subject;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +29,9 @@ public class Assignment {
 	
 	private String summary;
 	
-	private String subject;
+	private Subject subject;
+	
+	private int totalScore;
 	
 	private Date date;
 	

@@ -28,9 +28,11 @@ public class AnnouncementController {
 	private AnnouncementRepository announcementRepository;
 	private TeacherRepository teacherRepository;
 
-public AnnouncementController(AnnouncementRepository announcementRepository) {
+public AnnouncementController(AnnouncementRepository announcementRepository,
+		TeacherRepository teacherRepository) {
 	super();
 	this.announcementRepository = announcementRepository;
+	this.teacherRepository = teacherRepository;
 }
 	
 
