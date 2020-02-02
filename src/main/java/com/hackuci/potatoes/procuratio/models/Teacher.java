@@ -24,8 +24,6 @@ import lombok.NonNull;
 public class Teacher{
 	
 	@Id
-	@NonNull
-	@GeneratedValue
 	private Long id;
 	
 	@OneToOne
