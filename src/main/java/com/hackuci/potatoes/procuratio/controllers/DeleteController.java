@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,5 +103,18 @@ public class DeleteController {
 	ResponseEntity<?> deleteDocument(@PathVariable Long documentid) {
 		doRepo.deleteById(documentid);
 		return ResponseEntity.ok().build();
+	}
+	
+	@DeleteMapping("/assignment/{assignmentid}")
+	ResponseEntity<?> deleteAssignment(@PathVariable Long assignmentid) {
+		Optional<Assignment> assignment = asRepo.findById(assignmentid);
+		assignment.map(response -> {
+			Subject subject = response.getSubject();
+			Teacher teacher = response.getTeacher();
+			asRepo.deleteById(assignmentid);
+			recalculateGrade(subject, teacher);
+			return ResponseEntity.ok().build();
+		});
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }
