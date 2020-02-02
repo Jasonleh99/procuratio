@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="Resources")
+@Table(name="Resource")
 public class Resource {
 
 	@Id

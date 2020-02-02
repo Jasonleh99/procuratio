@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="notifications")
+@Table(name="notification")
 public class Notification {
 
 	@Id

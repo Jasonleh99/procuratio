@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="grades")
+@Table(name="grade")
 public class Grade {
 
 	@Id
