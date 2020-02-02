@@ -17,14 +17,16 @@ import CompanyLogo from "../svg/flasks.svg";
 
 const useStyles = makeStyles(theme => ({
   container: {
+    backgroundColor: "#efe5fd",
     maxHeight: "100%",
     maxWidth: "100%",
     height: "100%"
   },
   card: {
-    marginTop: "40px",
-    width: "40%",
-    height: "50%",
+    paddingTop: "30px",
+    maxWidth: "50%",
+    minWidth: "50%",
+    maxHeight: "35%",
     transition: "0.3s",
     boxShadow: "0 4px 20px -12px rgba(0,0,0,0.3)",
     "&:hover": {
@@ -37,13 +39,16 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     maxWidth: "100%"
   },
-  projectTitle: {
-    marginTop: "100px",
-    marginLeft: "30px"
-  },
   heroDesc: {
-    marginTop: "100px",
-    marginBottom: "150px"
+    marginTop: "1em",
+    marginBottom: "1em"
+  },
+  title: {
+    fontSize: "5em",
+    paddingLeft: ".3em"
+  },
+  heroText: {
+    paddingTop: "3em"
   }
 }));
 
@@ -59,16 +64,14 @@ const Hero = () => {
       className={classes.container}
     >
       <Grid item className={classes.hero}>
-        <Grid container direction="column" style={{ height: "100%" }}>
+        <Grid container direction="column">
           <Grid item container xs>
             <Grid item xs={1} />
-            <Grid item xs={4} className={classes.projectTitle}>
-              <Grid container>
+            <Grid item xs={7}>
+              <Grid className={classes.heroText} container item>
                 <img src={CompanyLogo} width="88px" alt="company-logo" />
-                <Typography variant="h1" style={{ paddingLeft: "15px" }}>
-                  <Box fontWeight="fontWeightBold" m={1}>
-                    Hero Labs
-                  </Box>
+                <Typography className={classes.title} variant="h1">
+                  <Box fontWeight="fontWeightBold">Hero Labs</Box>
                 </Typography>
               </Grid>
               <Typography variant="h4" className={classes.heroDesc}>
@@ -77,15 +80,23 @@ const Hero = () => {
               </Typography>
               <Typography variant="h4">Sign up as a...</Typography>
             </Grid>
-            <Grid item xs={3} />
-            <Grid item xs={3} style={{ marginTop: "60px" }}>
-              <img src={MainLogo} width="520px" alt="main-logo" />
+            <Grid item container justify="center" xs={3}>
+              <img
+                src={MainLogo}
+                alt="main-logo"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  paddingBottom: "2em",
+                  paddingTop: "2em"
+                }}
+              />
             </Grid>
           </Grid>
 
           <Grid item container xs>
             {/* Parent Card */}
-            <Grid item container justify="center" xs>
+            <Grid item container justify="center" xs={4}>
               <Card className={classes.card} variant="outlined">
                 <CardContent
                   style={{ height: "100%", width: "100%", padding: 0 }}
@@ -93,13 +104,9 @@ const Hero = () => {
                   <Typography
                     variant="h4"
                     align="center"
-                    style={{ height: "20%" }}
+                    style={{ height: "20%", fontSize: "1.5em" }}
                   >
-                    <Box
-                      fontWeight="fontWeightBold"
-                      m={1}
-                      style={{ height: "100%", paddingTop: "10px" }}
-                    >
+                    <Box fontWeight="fontWeightBold" style={{ height: "100%" }}>
                       Parent
                     </Box>
                   </Typography>
@@ -122,7 +129,7 @@ const Hero = () => {
             </Grid>
 
             {/* Student Card */}
-            <Grid item container justify="center" xs>
+            <Grid item container justify="center" xs={4}>
               <Card className={classes.card} variant="outlined">
                 <CardContent
                   style={{ height: "100%", width: "100%", padding: 0 }}
@@ -130,13 +137,9 @@ const Hero = () => {
                   <Typography
                     variant="h4"
                     align="center"
-                    style={{ height: "20%" }}
+                    style={{ height: "20%", fontSize: "1.5em" }}
                   >
-                    <Box
-                      fontWeight="fontWeightBold"
-                      m={1}
-                      style={{ height: "100%", paddingTop: "10px" }}
-                    >
+                    <Box fontWeight="fontWeightBold" style={{ height: "100%" }}>
                       Student
                     </Box>
                   </Typography>
@@ -159,7 +162,7 @@ const Hero = () => {
             </Grid>
 
             {/* Teacher Card */}
-            <Grid item container justify="center" xs>
+            <Grid item container justify="center" xs={4}>
               <Card className={classes.card} variant="outlined">
                 <CardContent
                   style={{ height: "100%", width: "100%", padding: 0 }}
@@ -167,13 +170,9 @@ const Hero = () => {
                   <Typography
                     variant="h4"
                     align="center"
-                    style={{ height: "20%" }}
+                    style={{ height: "20%", fontSize: "1.5em" }}
                   >
-                    <Box
-                      fontWeight="fontWeightBold"
-                      m={1}
-                      style={{ height: "100%", paddingTop: "10px" }}
-                    >
+                    <Box fontWeight="fontWeightBold" style={{ height: "100%" }}>
                       Teacher
                     </Box>
                   </Typography>
