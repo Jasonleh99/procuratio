@@ -137,7 +137,7 @@ class Grades extends Component {
                         </Paper>
                       ))}
                     </Grid>
-                    <Grid item xs lg={5}>
+                    <Grid item xs lg={5} style={{ marginTop: 20 }}>
                       <Chart
                         chartType="Bar"
                         className={classes.gradeGraph}

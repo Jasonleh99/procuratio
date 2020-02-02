@@ -159,7 +159,7 @@ class Resources extends Component {
           onClose={this.handleClose}
           aria-labelledby="resource-dialog"
         >
-          <DialogTitle id="resource-dialog">New Assignment</DialogTitle>
+          <DialogTitle id="resource-dialog">New Resource</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Create a new resource by specifying the name of your resource and

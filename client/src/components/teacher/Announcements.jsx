@@ -77,7 +77,7 @@ class Announcements extends Component {
   handleSubmit = () => {
     const name = document.querySelector("#announcement-title").value;
     const description = document.querySelector("#announcement-body").value;
-
+    
     this.setState({
       announcements: [
         ...this.state.announcements,

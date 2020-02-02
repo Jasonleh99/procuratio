@@ -9,14 +9,25 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  IconButton
 } from "@material-ui/core";
 
 import FadeIn from "react-fade-in";
 
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+
+import DeleteIcon from "@material-ui/icons/Delete";
+
+import UppyModal from "./UppyModal";
+
+import "@uppy/core/dist/style.css";
+import "@uppy/dashboard/dist/style.css";
 
 const CELL_COLOR = "#FF6961";
 
@@ -30,7 +41,6 @@ const styles = {
     width: "100%"
   },
   assignmentCell: {
-    marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
   },
@@ -46,6 +56,7 @@ class Assignments extends Component {
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
+      students: ["John Doe", "yes"],
       assignments: [
         {
           title: "Multiplication Practice",
@@ -69,7 +80,10 @@ class Assignments extends Component {
         }
       ],
       isLoading: true,
-      open: false
+      open: false,
+      openFile: false,
+      currentAssignment: undefined,
+      selectedStudent: undefined
     };
   }
 
@@ -104,9 +118,31 @@ class Assignments extends Component {
     this.handleClose();
   };
 
+  handleSelection = event => {
+    this.setState({ selectedStudent: event.target.value });
+  };
+
+  handleAssignmentOpen = i => {
+    this.setState({ openFile: true, currentAssignment: i });
+  };
+
+  handleAssignmentClose = () => {
+    this.setState({ openFile: false, currentAssignment: undefined });
+  };
+
+  handleUploadCompleted = (id, url) => {
+    console.log("handleUploadCompleted(), id:", id, " - url:", url);
+  };
+
+  handleDeleteAssignment = i => {
+    let array = [...this.state.assignments];
+    array.splice(i, 1);
+    this.setState({ assignments: array });
+  };
+
   render() {
     const { classes } = this.props;
-    const { assignments, open, teacherId } = this.state;
+    const { assignments, open, teacherId, openFile, students } = this.state;
 
     return (
       <>
@@ -147,31 +183,45 @@ class Assignments extends Component {
                     </Grid>
                   </Grid>
                   {assignments.map((assignment, i) => (
-                    <Link
-                      to={{ pathname: "/current-assignment/upload" }}
-                      style={{ textDecoration: "none" }}
-                      key={"assignmentCell_" + i}
+                    <Grid
+                      container
+                      alignItems="center"
+                      style={{ marginTop: 20 }}
                     >
-                      <Paper className={classes.assignmentCell}>
-                        <Grid container>
-                          <Grid item md={8} xs>
-                            <Typography variant="h5">
-                              {assignment.title}
-                            </Typography>
+                      <Grid item xs={11}>
+                        <Paper
+                          className={classes.assignmentCell}
+                          key={"assignmentCell_" + i}
+                          onClick={this.handleAssignmentOpen}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <Grid container>
+                            <Grid item md={8} xs>
+                              <Typography variant="h5">
+                                {assignment.title}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={2} xs>
+                              <Typography variant="h5">
+                                {assignment.dueDate}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={2} xs>
+                              <Typography variant="h5">
+                                Max Score: {assignment.maxScore}
+                              </Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              {assignment.dueDate}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              Max Score: {assignment.maxScore}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Paper>
-                    </Link>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={1}>
+                        <IconButton
+                          onClick={() => this.handleDeleteAssignment(i)}
+                        >
+                          <DeleteIcon fontSize="large" />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
                   ))}
                 </Grid>
                 <Grid item xs={1} />
@@ -234,6 +284,51 @@ class Assignments extends Component {
               color="primary"
             >
               Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={openFile}
+          onClose={this.handleAssignmentClose}
+          aria-labelledby="submission-dialog"
+        >
+          <DialogTitle id="submission-dialog">
+            Upload Student Submission
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Upload a student's submission for this assignment. You can select
+              the student that you want from the drop down menu.
+            </DialogContentText>
+            <Grid container justify="center">
+              <Grid item xs>
+                <UppyModal handleUploadCompleted={this.handleUploadCompleted} />
+              </Grid>
+              <Grid item xs>
+                <FormControl required style={{ width: "100%" }}>
+                  <InputLabel id="student-selector">Student</InputLabel>
+                  <Select
+                    labelId="student-selector"
+                    id="student-menu"
+                    onChange={this.handleSelection}
+                  >
+                    {students.map((student, i) => (
+                      <MenuItem value={student} key={"student_" + i}>
+                        {student}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleAssignmentClose}
+              variant="contained"
+              color="secondary"
+            >
+              Close
             </Button>
           </DialogActions>
         </Dialog>

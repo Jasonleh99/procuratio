@@ -168,11 +168,11 @@ class Notifications extends Component {
           onClose={this.handleClose}
           aria-labelledby="notification-dialog"
         >
-          <DialogTitle id="notification-dialog">New Announcement</DialogTitle>
+          <DialogTitle id="notification-dialog">New Notification</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Create a new announcement by specifying the title and body of your
-              announcement.
+              Create a new notification by specifying the title and body of your
+              notification.
             </DialogContentText>
             <Grid container direction="column">
               <Grid item container xs>

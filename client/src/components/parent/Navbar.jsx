@@ -2,13 +2,15 @@ import React from "react";
 
 import { Link, withRouter } from "react-router-dom";
 import {
-  Button,
+  IconButton,
   Drawer,
   MenuList,
   MenuItem,
   makeStyles,
   Typography
 } from "@material-ui/core";
+
+import MenuIcon from "@material-ui/icons/MenuOutlined";
 
 const MENU_BACKGROUND = "#8ef5f0";
 const MENU_ITEM_HOVER = "white";
@@ -120,6 +122,10 @@ const Navbar = props => {
           Documents
         </MenuItem>
       </MenuList>
+
+      <MenuItem component={Link} to={{ pathname: "/" }}>
+        Logout
+      </MenuItem>
     </MenuList>
   );
 
@@ -136,7 +142,9 @@ const Navbar = props => {
 
   return (
     <div className={classes.root}>
-      <Button onClick={toggleMenu(true)}>Menu</Button>
+      <IconButton onClick={toggleMenu(true)} style={{ marginTop: "5px" }}>
+        <MenuIcon fontSize="large" />
+      </IconButton>
       <Drawer
         open={state.displayMenu}
         onClose={toggleMenu(false)}
