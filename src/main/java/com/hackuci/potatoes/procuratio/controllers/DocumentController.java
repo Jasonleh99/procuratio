@@ -53,7 +53,7 @@ public class DocumentController {
 		return ResponseEntity.created(new URI("/api/message/" + result.getId())).body(result);
 	}
 	
-	@PutMapping("/new_document")
+	@PutMapping("/update_document")
 	ResponseEntity<Document> updateDocument(@Valid @RequestBody Document document){
 		Document result = documentRepository.save(document);
 		return ResponseEntity.ok().body(result);
