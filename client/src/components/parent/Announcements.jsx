@@ -75,11 +75,7 @@ class Announcements extends Component {
                   <Typography variant="h2">Announcements</Typography>
 
                   <Grid container>
-                    <Grid
-                      item
-                      xs
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
-                    >
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
                       {announcements.map((announce, i) => (
                         <Paper
                           className={classes.announcementCell}

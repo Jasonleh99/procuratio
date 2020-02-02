@@ -102,7 +102,7 @@ class Grades extends Component {
                       item
                       xs
                       lg={6}
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                      style={{ paddingBottom: "10px", marginRight: "40px"}}
                     >
                       {grades.map((grade, i) => (
                         <Paper
@@ -132,7 +132,7 @@ class Grades extends Component {
                         </Paper>
                       ))}
                     </Grid>
-                    <Grid item xs lg={5}>
+                    <Grid item xs lg={5} style={{ marginTop: 20 }}>
                       <Chart
                         chartType="Bar"
                         className={classes.gradeGraph}

@@ -21,14 +21,13 @@ import PResources from "./components/parent/Resources";
 import PAnnouncements from "./components/parent/Announcements";
 
 /* Teacher imports */
-import TSummary from "./components/teacher/Summary";
 import TClassRoster from "./components/teacher/Roster";
 import TAssignments from "./components/teacher/Assignments";
-// import TGrades from "./components/teacher/Grades";
-// import TAnnouncements from "./components/teacher/Announcements";
-// import TNotifications from "./components/teacher/Notifications";
-// import TResources from "./components/teacher/Resources";
-// import TDocuments from "./components/teacher/Documents";
+import TGrades from "./components/teacher/Grades";
+import TAnnouncements from "./components/teacher/Announcements";
+import TNotifications from "./components/teacher/Notifications";
+import TResources from "./components/teacher/Resources";
+import TDocuments from "./components/teacher/Documents";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -105,11 +104,6 @@ const App = () => {
           {/* Teacher paths */}
           <Route
             exact
-            path="/:teacher_id/teacher/class-summary"
-            render={props => <TSummary {...props} />}
-          />
-          <Route
-            exact
             path="/:teacher_id/teacher/class-roster"
             render={props => <TClassRoster {...props} />}
           />
@@ -118,7 +112,7 @@ const App = () => {
             path="/:teacher_id/teacher/assignments"
             render={props => <TAssignments {...props} />}
           />
-          {/* <Route
+          <Route
             exact
             path="/:teacher_id/teacher/grades"
             render={props => <TGrades {...props} />}
@@ -141,7 +135,7 @@ const App = () => {
           <Route
             exact
             path="/:teacher_id/teacher/documents"
-            render={props => <TDocuments {...props} />} */}
+            render={props => <TDocuments {...props} />}
           />
         </Switch>
       </div>
