@@ -9,6 +9,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.hackuci.potatoes.procuratio.UserType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,13 +20,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(name="Student")
-public class Student extends User {
+public class Student implements User{
 
 	@Id
-	private String pairingid;
+	private Long id;
 	
-	@OneToMany
-	private Set<Assignment> assignments;
+	private String name;
+	
+	private String login;
+	
+	private String password;
+	
+	@Id
+	private String pairingid;
 	
 	@OneToMany
 	private Set<Grade> grades;
@@ -34,5 +42,10 @@ public class Student extends User {
 	
 	@ManyToOne
 	private Teacher teacher;
-	
+
+	@Override
+	public UserType getUserType() {
+		// TODO Auto-generated method stub
+		return UserType.STUDENT;
+	}
 }

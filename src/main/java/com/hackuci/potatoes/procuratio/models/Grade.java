@@ -2,6 +2,7 @@ package com.hackuci.potatoes.procuratio.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,4 +28,7 @@ public class Grade {
 	
 	@OneToOne
 	private Student student;
+	
+	@ManyToOne
+	private Teacher teacher;
 }

@@ -48,6 +48,19 @@ public class AssignmentController {
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+	@GetMapping("/assignments/{studentid}/{assignmentid}")
+	ResponseEntity<?> getSubmission(@PathVariable Long studentid, @PathVariable Long assignmentid) {
+		Optional<Student> student = studentRepository.findById(studentid);
+		Optional<Assignment> assignment = assignmentRepository.findById(assignmentid);
+		if (student.isPresent() && assignment.isPresent()) {
+			Optional<AssignmentStudent> submission = asRepository.findByStudentAndAssignment(student.get(), assignment.get());
+			return submission.map(response -> 
+					ResponseEntity.ok().body(response))
+					.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
 	@GetMapping("/{assignmentId}")
 	ResponseEntity<?> getStudentAssignment(@PathVariable Long assignmentId) {
 		Optional<Assignment> assignment= assignmentRepository.findById(assignmentId);
@@ -56,9 +69,10 @@ public class AssignmentController {
 	}
 	
 	@PostMapping("/new_assignment_submission")
-	ResponseEntity<Assignment> createAssignment(@Valid @RequestBody Assignment assignment) throws URISyntaxException{
-		Assignment result = assignmentRepository.save(assignment);
-		return ResponseEntity.created(new URI("/api/assignment" + result.getId())).body(result);
+	ResponseEntity<AssignmentStudent> createAssignment(
+			@Valid @RequestBody AssignmentStudent assignmentStudent) throws URISyntaxException{
+		AssignmentStudent result = asRepository.save(assignmentStudent);
+		return ResponseEntity.created(new URI("/api/assignment/" + result)).body(result);
 	}
 	
 	@PutMapping("/update_assignment")

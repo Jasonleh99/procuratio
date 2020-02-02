@@ -1,14 +1,8 @@
 package com.hackuci.potatoes.procuratio.models;
 
-import javax.persistence.Id;
+import com.hackuci.potatoes.procuratio.UserType;
 
-public abstract class User {
-	@Id
-	public Long id;
-	
-	public String name;
-	
-	public String login;
-	
-	public String password;
+public interface User {
+	public Long getId();
+	public UserType getUserType();
 }

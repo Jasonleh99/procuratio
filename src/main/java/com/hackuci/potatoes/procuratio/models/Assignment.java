@@ -33,7 +33,4 @@ public class Assignment {
 	
 	@ManyToOne
 	private Teacher teacher;
-	
-	@OneToMany
-	private Set<Student> student;
 }
