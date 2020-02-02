@@ -33,9 +33,9 @@ public class ParentController {
 		return ResponseEntity.ok().body(pRepo.findAll());
 	}
 
-	@PutMapping("/{parentid}/{pairid}")
-	ResponseEntity<?> pairParent(@PathVariable Long parentid, @PathVariable String pairid) {
-		Optional<Student> student = sRepo.findByPairid(pairid);
+	@PutMapping("/{parentid}/{studentid}")
+	ResponseEntity<?> pairParent(@PathVariable Long parentid, @PathVariable Long studentid) {
+		Optional<Student> student = sRepo.findById(studentid);
 		Optional<Parent> parent = pRepo.findById(parentid);
 		if (parent.isPresent() && student.isPresent()) {
 			Student tempStudent = new Student();
