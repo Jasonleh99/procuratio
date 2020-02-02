@@ -1,101 +1,212 @@
 import React, { Component } from "react";
 import { Grid, Typography, Paper } from "@material-ui/core";
 
+import FadeIn from "react-fade-in";
+
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
 import { Chart } from "react-google-charts";
+
+const ASSIGNMENT_CELL_COLOR = "#FF6961";
+const ANNOUNCEMENT_CELL_COLOR = "#AEC6CF";
 
 const styles = {
   container: {
     maxWidth: "100%",
     maxHeight: "100%"
   },
-  header: {
-    paddingBottom: "150px"
+  fullWidth: {
+    marginTop: 100,
+    width: "100%"
+  },
+  announcementCell: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: ANNOUNCEMENT_CELL_COLOR
+  },
+  assignmentCell: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: ASSIGNMENT_CELL_COLOR
+  },
+  fadeIn: {
+    height: "100%",
+    width: "100%"
   }
 };
 
 class Summary extends Component {
-  state = {
-    announcements: [
-      {
-        title:
-          "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-        body: "hey hey hey"
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      parentId: this.props.match.params.parent_id,
+      student: {
+        name: "Beep Boop"
       },
-      {
-        title: "sample title",
-        body: "how is it already 2"
-      }
-    ],
-    isLoading: true
-  };
+      announcements: [
+        {
+          title: "sample announcement",
+          body: "test"
+        }
+      ],
+      assignments: [
+        {
+          title:
+            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
+          dueDate: "12/25/2019",
+          studentScore: 5,
+          totalScore: 5
+        },
+        {
+          title: "sample title",
+          dueDate: "11/25/2020",
+          studentScore: 5,
+          totalScore: 5
+        }
+      ],
+      grades: [
+        {
+          subject: "Math",
+          studentScore: 10,
+          totalScore: 15
+        },
+        {
+          subject: "English",
+          studentScore: 5,
+          totalScore: 10
+        }
+      ],
+      isLoading: true
+    };
+  }
 
   /* async componentDidMount() {
     add in the api call here
   } */
 
+  convertToData() {
+    const { grades } = this.state;
+    let result = [["Subject", "Grade (%)"]];
+
+    grades.forEach(grade => {
+      const subject = grade.subject;
+      const percent = parseFloat(
+        (grade.studentScore / grade.totalScore) * 100
+      ).toFixed(2);
+
+      result.push([subject, percent]);
+    });
+
+    return result;
+  }
+
   render() {
-    const { announcements } = this.state;
     const { classes } = this.props;
+    const { announcements, assignments, student, parentId } = this.state;
 
     return (
       <>
-        <Navbar />
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className={classes.container}
-        >
-          <Grid item container className={classes.header}>
-            <Grid item xs={1} />
-            <Grid item xs={10}>
-              <Typography variant="h2">Summary: ________________</Typography>
-            </Grid>
-            <Grid item xs={1} />
-          </Grid>
-          <Grid item container>
-            <Grid item xs={1} />
-            <Grid item xs={10} container>
-              <Grid item xs>
-                <Typography variant="h5" style={{ paddingBottom: "20px" }}>
-                  Grades
-                </Typography>
-                <Chart
-                  chartType="Bar"
-                  loader={<div>Loading Grades...</div>}
-                  data={[
-                    ["Subject", "Score (%)", "Class Average (%)"],
-                    ["Math", 80, 90],
-                    ["English", 76, 60],
-                    ["Science", 56, 70],
-                    ["History", 90, 75]
-                  ]}
-                  height={'100%'}
-                />
+        <Navbar parentId={parentId} />
+        <FadeIn className={classes.fadeIn}>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            className={classes.container}
+            spacing={2}
+          >
+            <Grid item className={classes.fullWidth}>
+              <Grid item container>
+                <Grid item xs={1} />
+                <Grid item xs={10}>
+                  <Typography variant="h2">
+                    {"Summary: " + student.name}
+                  </Typography>
+
+                  <Grid container>
+                    <Grid
+                      item
+                      xs
+                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                    >
+                      {/* Announcement Section  */}
+                      <Typography variant="h4" style={{ paddingTop: "30px" }}>
+                        Announcements
+                      </Typography>
+                      {announcements.map((announce, i) => (
+                        <Paper
+                          className={classes.announcementCell}
+                          key={"announcementCell_" + i}
+                        >
+                          <Grid container direction="column">
+                            <Grid item xs>
+                              <Typography variant="h5">
+                                {announce.title}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs style={{ paddingTop: "15px" }}>
+                              <Typography variant="h6">
+                                {announce.body}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      ))}
+
+                      {/* Assignment Section */}
+                      <Typography variant="h4" style={{ paddingTop: "30px" }}>
+                        Recent Assignments
+                      </Typography>
+                      {assignments.map((assignment, i) => (
+                        <Paper
+                          className={classes.assignmentCell}
+                          key={"assignmentCell_" + i}
+                        >
+                          <Grid container>
+                            <Grid item md={8} xs>
+                              <Typography variant="h5">
+                                {assignment.title}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={2} xs>
+                              <Typography variant="h5">
+                                {assignment.dueDate}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={2} xs>
+                              <Typography variant="h5">
+                                Score: {assignment.studentScore} /{" "}
+                                {assignment.totalScore}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      ))}
+
+                      {/* Grade Section */}
+                      <Typography variant="h4" style={{ paddingTop: "30px", paddingBottom: "10px"}}>
+                        Grades
+                      </Typography>
+                      <Chart
+                        chartType="Bar"
+                        className={classes.gradeGraph}
+                        loader={
+                          <div style={{ height: "100%" }}>
+                            Loading Grades...
+                          </div>
+                        }
+                        data={this.convertToData()}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={1} />
+                </Grid>
               </Grid>
-              <Grid item xs={1} />
-              <Grid item xs>
-                <Typography variant="h5" style={{ paddingBottom: "20px" }}>
-                  Recent Assignments
-                </Typography>
-                {announcements.map(announce => (
-                  <Paper style={{ marginBottom: "100px" }}>
-                    <div>
-                      <Typography variant="h5">{announce.title}</Typography>
-                    </div>
-                    <div>
-                      <Typography variant="p">{announce.body}</Typography>
-                    </div>
-                  </Paper>
-                ))}
-              </Grid>
             </Grid>
-            <Grid item xs={1} />
           </Grid>
-        </Grid>
+        </FadeIn>
       </>
     );
   }

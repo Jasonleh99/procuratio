@@ -5,23 +5,29 @@ import { makeStyles } from "@material-ui/core";
 import Landing from "./components/Landing";
 
 /* Student imports */
-import Student from "./components/student/Student";
-import S_Announcements from "./components/student/Announcements";
-import S_Assignments from "./components/student/Assignments";
-import S_Grades from "./components/student/Grades";
-import S_Resources from "./components/student/Resources";
+import SAnnouncements from "./components/student/Announcements";
+import SAssignments from "./components/student/Assignments";
+import SGrades from "./components/student/Grades";
+import SResources from "./components/student/Resources";
 
 /* Parent imports */
-import P_Summary from "./components/parent/Summary";
-import P_Assignments from "./components/parent/Assignments";
-import P_Grades from "./components/parent/Grades";
-import P_Notifications from "./components/parent/Notifications";
-import P_Documents from "./components/parent/Documents";
+import PSummary from "./components/parent/Summary";
+import PAssignments from "./components/parent/Assignments";
+import PGrades from "./components/parent/Grades";
+import PNotifications from "./components/parent/Notifications";
+import PDocuments from "./components/parent/Documents";
+import PResources from "./components/parent/Resources";
+import PAnnouncements from "./components/parent/Announcements";
+
+/* Teacher imports */
+import TSummary from "./components/teacher/Summary";
+import TClassRoster from "./components/teacher/ClassRoster";
+import TAssignments from "./components/teacher/Assignments";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    height: "100%",
+    height: "100%"
   }
 }));
 
@@ -33,22 +39,83 @@ const App = () => {
       <div className={classes.root}>
         <Switch>
           <Route exact path="/" component={Landing} />
+          {/* <Route exact path="/parent/:parentId" /> Need to add features to landing so it's more dynamic */}
 
           {/* Student paths */}
-          <Route exact path="/:student_id/student" render={(props) => <Student {...props} />} />
-          <Route exact path="/:student_id/student/announcements" render={(props) => <S_Announcements {...props} />} />
-          <Route exact path="/:student_id/student/assignments" render={(props) => <S_Assignments {...props} />} />
-          <Route exact path="/:student_id/grades" render={(props) => <S_Grades {...props} />} />
-          <Route exact path="/resources" render={(props) => <S_Resources {...props} />} />
+          <Route
+            exact
+            path="/:student_id/student/announcements"
+            render={props => <SAnnouncements {...props} />}
+          />
+          <Route
+            exact
+            path="/:student_id/student/assignments"
+            render={props => <SAssignments {...props} />}
+          />
+          <Route
+            exact
+            path="/:student_id/student/grades"
+            render={props => <SGrades {...props} />}
+          />
+          <Route
+            exact
+            path="/:student_id/student/resources"
+            render={props => <SResources {...props} />}
+          />
 
           {/* Parent paths */}
-          <Route exact path="/student_summary" render={(props) => <P_Summary {...props} />} />
-          <Route exact path="/assignments" render={(props) => <P_Assignments {...props} />} />
-          <Route exact path="/grades" render={(props) => <P_Grades {...props} />} />
-          <Route exact path="/notifications" render={(props) => <P_Notifications {...props} />} />
-          <Route exact path="/documents" render={(props) => <P_Documents {...props} />} />
+          <Route
+            exact
+            path="/:parent_id/parent/student-summary"
+            render={props => <PSummary {...props} />}
+          />
+          <Route
+            exact
+            path="/:parent_id/parent/assignments"
+            render={props => <PAssignments {...props} />}
+          />
+          <Route
+            exact
+            path="/:parent_id/parent/grades"
+            render={props => <PGrades {...props} />}
+          />
+          <Route
+            exact
+            path="/:parent_id/parent/notifications"
+            render={props => <PNotifications {...props} />}
+          />
+          <Route
+            exact
+            path="/:parent_id/parent/documents"
+            render={props => <PDocuments {...props} />}
+          />
+          <Route
+            exact
+            path="/:parent_id/parent/resources"
+            render={props => <PResources {...props} />}
+          />
+          <Route
+            exact
+            path="/:parent_id/parent/announcements"
+            render={props => <PAnnouncements {...props} />}
+          />
 
-
+          {/* Teacher paths */}
+          <Route
+            exact
+            path="/class-summary"
+            render={props => <TSummary {...props} />}
+          />
+          <Route
+            exact
+            path="/class-roster"
+            render={props => <TClassRoster {...props} />}
+          />
+          <Route
+            exact
+            path="/assignments"
+            render={props => <TAssignments {...props} />}
+          />
         </Switch>
       </div>
     </BrowserRouter>

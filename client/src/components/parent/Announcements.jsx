@@ -6,7 +6,7 @@ import FadeIn from "react-fade-in";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#FFCCCC";
+const CELL_COLOR = "#AEC6CF";
 
 const styles = {
   container: {
@@ -17,7 +17,7 @@ const styles = {
     marginTop: 100,
     width: "100%"
   },
-  resourceCell: {
+  announcementCell: {
     marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
@@ -28,20 +28,21 @@ const styles = {
   }
 };
 
-class Resources extends Component {
+class Announcements extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       parentId: this.props.match.params.parent_id,
-      resources: [
+      announcements: [
         {
-          title: "Resource 1",
-          body: "YES"
+          title:
+            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
+          body: "hey hey hey"
         },
         {
-          title: "RESOURCE 2",
-          body: "F U C K"
+          title: "sample title",
+          body: "how is it already 2"
         }
       ],
       isLoading: true
@@ -54,7 +55,7 @@ class Resources extends Component {
 
   render() {
     const { classes } = this.props;
-    const { resources, parentId } = this.state;
+    const { announcements, parentId } = this.state;
 
     return (
       <>
@@ -71,7 +72,7 @@ class Resources extends Component {
               <Grid item container>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
-                  <Typography variant="h2">Resources</Typography>
+                  <Typography variant="h2">Announcements</Typography>
 
                   <Grid container>
                     <Grid
@@ -79,20 +80,20 @@ class Resources extends Component {
                       xs
                       style={{ paddingBottom: "10px", marginRight: "40px" }}
                     >
-                      {resources.map((resource, i) => (
+                      {announcements.map((announce, i) => (
                         <Paper
-                          className={classes.resourceCell}
-                          key={"resourceCell_" + i}
+                          className={classes.announcementCell}
+                          key={"announcementCell_" + i}
                         >
                           <Grid container direction="column">
                             <Grid item xs>
                               <Typography variant="h4">
-                                {resource.title}
+                                {announce.title}
                               </Typography>
                             </Grid>
-                            <Grid item xs>
+                            <Grid item xs style={{ paddingTop: "15px" }}>
                               <Typography variant="h6">
-                                {resource.body}
+                                {announce.body}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -111,4 +112,4 @@ class Resources extends Component {
   }
 }
 
-export default withStyles(styles)(Resources);
+export default withStyles(styles)(Announcements);
