@@ -66,4 +66,12 @@ public class AssignmentController {
 		Assignment result = assignmentRepository.save(assignment);
 		return ResponseEntity.ok().body(result);
 	}
+	
+	@PutMapping("/update_submission")
+	ResponseEntity<AssignmentStudent> updateAssignmentStudent(@Valid @RequestBody AssignmentStudent assignmentStudent){
+		AssignmentStudent result = asRepository.save(assignmentStudent);
+		return ResponseEntity.ok().body(result);
+	}
+
+	
 }
