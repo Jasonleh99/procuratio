@@ -47,24 +47,24 @@ class Documents extends Component {
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      documents: [
-        {
-          title: "Document 1",
-          link: "https://google.com"
-        },
-        {
-          title: "RESOURCE 2",
-          link: "https://facebook.com"
-        }
-      ],
+      documents: [],
       isLoading: true,
       open: false
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/documents/${this.state.teacherId}`);
+    const body = await response.json();
+
+    let documents = [];
+    body.forEach(el => {
+      documents.unshift({ title: el.title, pdf_link: el.pdf_link, id: el.id });
+    });
+
+    this.setState({ documents: documents, isLoading: false });
+  }
+
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -75,7 +75,7 @@ class Documents extends Component {
   };
 
   // implement function to make an api call
-  handleSubmit = () => {
+  async handleSubmit() {
     const name = document.querySelector("#document-title").value;
     let description = document.querySelector("#document-link").value;
 
@@ -83,18 +83,44 @@ class Documents extends Component {
       description = "https://".concat(description);
     }
 
-    this.setState({
-      documents: [...this.state.documents, { title: name, link: description }]
+    const teacherId = this.state.teacherId;
+
+    await fetch(`/api/documents/new_document`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: Math.floor(Math.random() * 9999999),
+        title: name,
+        pdf_link: description,
+        teacher: {
+          id: teacherId
+        }
+      })
+    }).then(() => {
+      this.setState({
+        documents: [...this.state.documents, { title: name, pdf_link: description }]
+      });
     });
 
     this.handleClose();
-  };
+  }
 
-  handleDeleteDocument = i => {
-    let array = [...this.state.documents];
-    array.splice(i, 1);
-    this.setState({ documents: array });
-  };
+  async handleDeleteDocument(i) {
+    await fetch(`/api/delete/document/${this.state.documents[i].id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(() => {
+      let array = [...this.state.documents];
+      array.splice(i, 1);
+      this.setState({ documents: array });
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -144,14 +170,14 @@ class Documents extends Component {
                           container
                           alignItems="center"
                           style={{ marginTop: 20 }}
+                          key={"documentCell_" + i}
                         >
                           <Grid item xs={11}>
                             <Paper
                               className={classes.documentCell}
-                              key={"documentCell_" + i}
                             >
                               <a
-                                href={document.link}
+                                href={document.pdf_link}
                                 style={{
                                   textDecoration: "none",
                                   color: "black"
@@ -214,7 +240,7 @@ class Documents extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.handleSubmit}
+              onClick={() => this.handleSubmit()}
               variant="contained"
               color="primary"
             >

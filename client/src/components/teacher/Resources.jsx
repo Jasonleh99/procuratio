@@ -47,24 +47,23 @@ class Resources extends Component {
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      resources: [
-        {
-          title: "Resource 1",
-          body: "YES"
-        },
-        {
-          title: "RESOURCE 2",
-          body: "F U C K"
-        }
-      ],
+      resources: [],
       isLoading: true,
       open: false
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/resources/${this.state.teacherId}`);
+    const body = await response.json();
+
+    let resources = [];
+    body.forEach(el => {
+      resources.unshift({ title: el.title, body: el.body, id: el.id });
+    });
+
+    this.setState({ resources: resources, isLoading: false });
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -75,22 +74,47 @@ class Resources extends Component {
   };
 
   // implement function to make an api call
-  handleSubmit = () => {
+  async handleSubmit() {
     const name = document.querySelector("#resource-name").value;
     const description = document.querySelector("#resource-description").value;
+    const teacherId = this.state.teacherId;
 
-    this.setState({
-      resources: [...this.state.resources, { title: name, body: description }]
+    await fetch(`/api/resources/new_resource`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: Math.floor(Math.random() * 9999999),
+        title: name,
+        body: description,
+        teacher: {
+          id: teacherId
+        }
+      })
+    }).then(() => {
+      this.setState({
+        resources: [...this.state.resources, { title: name, body: description }]
+      });
     });
 
     this.handleClose();
-  };
+  }
 
-  handleDeleteResource = i => {
-    let array = [...this.state.resources];
-    array.splice(i, 1);
-    this.setState({ resources: array });
-  };
+  async handleDeleteResource(i) {
+    await fetch(`/api/delete/resource/${this.state.resources[i].id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(() => {
+      let array = [...this.state.resources];
+      array.splice(i, 1);
+      this.setState({ resources: array });
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -214,7 +238,7 @@ class Resources extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.handleSubmit}
+              onClick={() => this.handleSubmit()}
               variant="contained"
               color="primary"
             >

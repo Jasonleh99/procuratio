@@ -37,24 +37,22 @@ class Notifications extends Component {
       student: {
         name: "Beep Boop"
       },
-      notifications: [
-        {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
-        },
-        {
-          title: "sample title",
-          body: "how is it already 2"
-        }
-      ],
+      notifications: [],
       isLoading: true
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/notifications/teacher/200`);
+    const body = await response.json();
+
+    let notifications = [];
+    body.forEach(el => {
+      notifications.unshift({ title: el.title, body: el.body, id: el.id });
+    });
+
+    this.setState({ notifications: notifications, isLoading: false });
+  }
 
   render() {
     const { classes } = this.props;
@@ -78,11 +76,7 @@ class Notifications extends Component {
                   <Typography variant="h2">Notifications</Typography>
 
                   <Grid container>
-                    <Grid
-                      item
-                      xs
-                      style={{ paddingBottom: "10px"}}
-                    >
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
                       {notifications.map((notification, i) => (
                         <Paper
                           className={classes.notificationCell}

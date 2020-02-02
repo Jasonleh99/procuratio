@@ -35,23 +35,26 @@ class Announcements extends Component {
     this.state = {
       studentId: this.props.match.params.student_id,
       announcements: [
-        {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
-        },
-        {
-          title: "sample title",
-          body: "how is it already 2"
-        }
+        // {
+        //   title: "sample title",
+        //   body: "sample body"
+        // }
       ],
       isLoading: true
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch("/api/announcements/200");
+    const body = await response.json();
+
+    let announcements = [];
+    body.forEach(el => {
+      announcements.unshift({ title: el.title, body: el.body });
+    });
+
+    this.setState({ announcements: announcements });
+  }
 
   render() {
     const { classes } = this.props;
@@ -75,11 +78,7 @@ class Announcements extends Component {
                   <Typography variant="h2">Announcements</Typography>
 
                   <Grid container>
-                    <Grid
-                      item
-                      xs
-                      style={{ paddingBottom: "10px"}}
-                    >
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
                       {announcements.map((announce, i) => (
                         <Paper
                           className={classes.announcementCell}

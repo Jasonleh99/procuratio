@@ -34,23 +34,22 @@ class Resources extends Component {
 
     this.state = {
       parentId: this.props.match.params.parent_id,
-      resources: [
-        {
-          title: "Resource 1",
-          body: "YES"
-        },
-        {
-          title: "RESOURCE 2",
-          body: "F U C K"
-        }
-      ],
+      resources: [],
       isLoading: true
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/resources/200`);
+    const body = await response.json();
+
+    let resources = [];
+    body.forEach(el => {
+      resources.unshift({ title: el.title, body: el.body, id: el.id });
+    });
+
+    this.setState({ resources: resources, isLoading: false });
+  }
 
   render() {
     const { classes } = this.props;
@@ -74,11 +73,7 @@ class Resources extends Component {
                   <Typography variant="h2">Resources</Typography>
 
                   <Grid container>
-                    <Grid
-                      item
-                      xs
-                      style={{ paddingBottom: "10px"}}
-                    >
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
                       {resources.map((resource, i) => (
                         <Paper
                           className={classes.resourceCell}

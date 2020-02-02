@@ -34,23 +34,22 @@ class Documents extends Component {
 
     this.state = {
       parentId: this.props.match.params.parent_id,
-      documents: [
-        {
-          title: "Document 1",
-          link: "https://google.com"
-        },
-        {
-          title: "RESOURCE 2",
-          link: "https://facebook.com"
-        }
-      ],
+      documents: [],
       isLoading: true
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/documents/200`);
+    const body = await response.json();
+
+    let documents = [];
+    body.forEach(el => {
+      documents.unshift({ title: el.title, pdf_link: el.pdf_link, id: el.id });
+    });
+
+    this.setState({ documents: documents, isLoading: false });
+  }
 
   render() {
     const { classes } = this.props;
@@ -60,7 +59,6 @@ class Documents extends Component {
       <>
         <Navbar parentId={parentId} />
         <FadeIn className={classes.fadeIn}>
-          {" "}
           <Grid
             container
             direction="column"
@@ -86,7 +84,7 @@ class Documents extends Component {
                           key={"documentCell_" + i}
                         >
                           <a
-                            href={document.link}
+                            href={document.pdf_link}
                             style={{ textDecoration: "none", color: "black" }}
                             target="_"
                           >

@@ -57,28 +57,7 @@ class Assignments extends Component {
     this.state = {
       teacherId: this.props.match.params.teacher_id,
       students: ["John Doe", "yes"],
-      assignments: [
-        {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
-        },
-        {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
-        },
-        {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
-        },
-        {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
-        }
-      ],
+      assignments: [],
       isLoading: true,
       open: false,
       openFile: false,
@@ -87,9 +66,25 @@ class Assignments extends Component {
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(
+      `/api/assignments/teacher/${this.state.teacherId}`
+    );
+    const body = await response.json();
+
+    let assignments = [];
+    body.forEach(el => {
+      assignments.unshift({
+        title: el.title,
+        subject: el.subject,
+        id: el.id,
+        totalScore: el.totalScore,
+        dueDate: el.date
+      });
+    });
+
+    this.setState({ assignments: assignments, isLoading: false });
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -100,23 +95,45 @@ class Assignments extends Component {
   };
 
   // implement function to make an api call
-  handleSubmit = () => {
+  async handleSubmit() {
     const name = document.querySelector("#assignment-name").value;
     const dueDate = document.querySelector("#due-date").value;
-    const maxScore = parseInt(document.querySelector("#max-score").value);
+    const totalScore = parseInt(document.querySelector("#max-score").value);
+    const subject = document.querySelector("#subject").value;
 
-    this.setState({
-      assignments: [
-        ...this.state.assignments,
-        {
-          title: name,
-          dueDate: dueDate,
-          maxScore: maxScore
+    const teacherId = this.state.teacherId;
+
+    await fetch(`/api/assignments/new_assignment`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: Math.floor(Math.random() * 9999999),
+        title: name,
+        date: dueDate,
+        totalScore: totalScore,
+        subject: subject,
+        teacher: {
+          id: teacherId
         }
-      ]
+      })
+    }).then(() => {
+      this.setState({
+        assignments: [
+          ...this.state.assignments,
+          {
+            title: name,
+            dueDate: dueDate,
+            totalScore: totalScore
+          }
+        ]
+      });
     });
+
     this.handleClose();
-  };
+  }
 
   handleSelection = event => {
     this.setState({ selectedStudent: event.target.value });
@@ -134,11 +151,19 @@ class Assignments extends Component {
     console.log("handleUploadCompleted(), id:", id, " - url:", url);
   };
 
-  handleDeleteAssignment = i => {
-    let array = [...this.state.assignments];
-    array.splice(i, 1);
-    this.setState({ assignments: array });
-  };
+  async handleDeleteAssignment(i) {
+    await fetch(`/api/delete/assignment/${this.state.assignment[i].id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(() => {
+      let array = [...this.state.assignments];
+      array.splice(i, 1);
+      this.setState({ assignments: array });
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -208,7 +233,7 @@ class Assignments extends Component {
                             </Grid>
                             <Grid item md={2} xs>
                               <Typography variant="h5">
-                                Max Score: {assignment.maxScore}
+                                Max Score: {assignment.totalScore}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -242,13 +267,21 @@ class Assignments extends Component {
             </DialogContentText>
             <Grid container direction="column">
               <Grid item container xs>
-                <TextField
-                  autoFocus
-                  id="assignment-name"
-                  label="Assignment Name"
-                  fullWidth
-                  style={{ paddingBottom: "30px" }}
-                />
+                <Grid container>
+                  <Grid item xs>
+                    <TextField
+                      autoFocus
+                      id="assignment-name"
+                      label="Assignment Name"
+                      fullWidth
+                      style={{ paddingBottom: "30px" }}
+                    />
+                  </Grid>
+                  <Grid item xs={1} />
+                  <Grid item xs>
+                    <TextField id="subject" label="Subject" fullWidth />
+                  </Grid>
+                </Grid>
                 <Grid container>
                   <Grid item xs>
                     <TextField
@@ -279,7 +312,7 @@ class Assignments extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.handleSubmit}
+              onClick={() => this.handleSubmit()}
               variant="contained"
               color="primary"
             >

@@ -46,27 +46,25 @@ class Notifications extends Component {
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      notifications: [
-        {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey",
-          parentId: "ABC"
-        },
-        {
-          title: "sample title",
-          body: "how is it already 2",
-          parentId: "ABC"
-        }
-      ],
+      notifications: [],
       isLoading: true,
       open: false
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(
+      `/api/notifications/teacher/${this.state.teacherId}`
+    );
+    const body = await response.json();
+
+    let notifications = [];
+    body.forEach(el => {
+      notifications.unshift({ title: el.title, body: el.body, id: el.id });
+    });
+
+    this.setState({ notifications: notifications, isLoading: false });
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -77,26 +75,51 @@ class Notifications extends Component {
   };
 
   // implement function to make an api call
-  handleSubmit = () => {
+  async handleSubmit() {
     const name = document.querySelector("#notification-title").value;
     const description = document.querySelector("#notification-body").value;
-    
 
-    this.setState({
-      notifications: [
-        ...this.state.notifications,
-        { title: name, body: description,  }
-      ]
+    const teacherId = this.state.teacherId;
+
+    await fetch(`/api/notifications/new_notification`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: Math.floor(Math.random() * 9999999),
+        title: name,
+        body: description,
+        teacher: {
+          id: teacherId
+        }
+      })
+    }).then(() => {
+      this.setState({
+        notifications: [
+          ...this.state.notifications,
+          { title: name, body: description }
+        ]
+      });
     });
 
     this.handleClose();
-  };
+  }
 
-  handleDeleteNotification = i => {
-    let array = [...this.state.notifications];
-    array.splice(i, 1);
-    this.setState({ notifications: array });
-  };
+  async handleDeleteNotification(i) {
+    await fetch(`/api/delete/notification/${this.state.notifications[i].id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(() => {
+      let array = [...this.state.notifications];
+      array.splice(i, 1);
+      this.setState({ notifications: array });
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -222,7 +245,7 @@ class Notifications extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.handleSubmit}
+              onClick={() => this.handleSubmit()}
               variant="contained"
               color="primary"
             >

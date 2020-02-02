@@ -34,24 +34,22 @@ class Announcements extends Component {
 
     this.state = {
       parentId: this.props.match.params.parent_id,
-      announcements: [
-        {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
-        },
-        {
-          title: "sample title",
-          body: "how is it already 2"
-        }
-      ],
+      announcements: [],
       isLoading: true
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch("/api/announcements/200");
+    const body = await response.json();
+
+    let announcements = [];
+    body.forEach(el => {
+      announcements.unshift({ title: el.title, body: el.body });
+    });
+
+    this.setState({ announcements: announcements });
+  }
 
   render() {
     const { classes } = this.props;

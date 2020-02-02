@@ -52,9 +52,24 @@ class Assignments extends Component {
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/assignments/student/100`);
+    const body = await response.json();
+
+    let assignments = [];
+    body.forEach(el => {
+      assignments.unshift({
+        title: el.assignment.title,
+        subject: el.assignment.subject,
+        submission_link: el.submission_link,
+        score: el.score,
+        totalScore: el.totalScore,
+        dueDate: el.assignment.date
+      });
+    });
+
+    this.setState({ assignments: assignments, isLoading: false });
+  }
 
   render() {
     const { classes } = this.props;
@@ -78,11 +93,7 @@ class Assignments extends Component {
                   <Typography variant="h2">Assignments</Typography>
 
                   <Grid container>
-                    <Grid
-                      item
-                      xs
-                      style={{ paddingBottom: "10px"}}
-                    >
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
                       {assignments.map((assignment, i) => (
                         <Paper
                           className={classes.assignmentCell}

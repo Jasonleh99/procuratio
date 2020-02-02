@@ -46,25 +46,23 @@ class Announcements extends Component {
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      announcements: [
-        {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
-        },
-        {
-          title: "sample title",
-          body: "how is it already 2"
-        }
-      ],
+      announcements: [],
       isLoading: true,
       open: false
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/announcements/${this.state.teacherId}`);
+    const body = await response.json();
+
+    let announcements = [];
+    body.forEach(el => {
+      announcements.unshift({ title: el.title, body: el.body, id: el.id });
+    });
+
+    this.setState({ announcements: announcements, isLoading: false });
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -75,25 +73,60 @@ class Announcements extends Component {
   };
 
   // implement function to make an api call
-  handleSubmit = () => {
+  async handleSubmit() {
+    if (this.state === undefined || this.state.isLoading) {
+      console.err("Still loading...");
+    }
+
     const name = document.querySelector("#announcement-title").value;
     const description = document.querySelector("#announcement-body").value;
 
-    this.setState({
-      announcements: [
-        ...this.state.announcements,
-        { title: name, body: description }
-      ]
+    if (name === undefined || description === undefined) {
+      console.err("YOU NEED TO PUT IN A NAME OR DESCRIPTION");
+    }
+
+    const teacherId = this.state.teacherId;
+
+    await fetch(`/api/announcements/new_announcement`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: Math.floor(Math.random() * 9999999),
+        title: name,
+        body: description,
+        teacher: {
+          id: teacherId
+        }
+      })
+    }).then(() => {
+      this.setState({
+        announcements: [
+          ...this.state.announcements,
+          { title: name, body: description }
+        ]
+      });
     });
 
     this.handleClose();
-  };
+  }
 
-  handleDeleteAnnouncement = i => {
-    let array = [...this.state.announcements];
-    array.splice(i, 1);
-    this.setState({ announcements: array });
-  };
+  async handleDeleteAnnouncement(i) {
+    await fetch(`/api/delete/announcement/${this.state.announcements[i].id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    }).then(() => {
+      let array = [...this.state.announcements];
+      array.splice(i, 1);
+
+      this.setState({ announcements: array });
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -219,7 +252,7 @@ class Announcements extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.handleSubmit}
+              onClick={() => this.handleSubmit()}
               variant="contained"
               color="primary"
             >
