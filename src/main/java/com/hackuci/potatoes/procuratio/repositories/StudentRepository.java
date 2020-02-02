@@ -1,6 +1,7 @@
 package com.hackuci.potatoes.procuratio.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	Student findByParent(Parent parent);
 	List<Student> findByAssignment(Assignment assignment);
 	List<Student> findByTeacher(Teacher teacher);
+	Optional<Student> findByPairId(String pairid);
 }

@@ -2,7 +2,7 @@ package com.hackuci.potatoes.procuratio.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -11,15 +11,15 @@ import lombok.Data;
 @Entity
 @AllArgsConstructor
 @Data
-@Table(name="assignment_student")
+@Table(name="assignmentStudent")
 public class AssignmentStudent {
 	@Id
 	private long id;
 	
-	@OneToMany
+	@ManyToOne
 	private Assignment assignment;
 	
-	@OneToMany
+	@ManyToOne
 	private Student student;
 	
 	private String submission_link;

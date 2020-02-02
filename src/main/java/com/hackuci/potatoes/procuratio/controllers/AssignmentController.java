@@ -2,7 +2,6 @@ package com.hackuci.potatoes.procuratio.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,8 +100,10 @@ public class AssignmentController {
 		int scoreSum = 0;
 		int totalSum = 0;
 		for (AssignmentStudent submission: subjectAssignments) {
-			scoreSum += submission.getScore();
-			totalSum += submission.getTotal_score();
+			if (submission.getAssignment().getTeacher().equals(teacher)) {
+				scoreSum += submission.getScore();
+				totalSum += submission.getTotal_score();
+			}
 		}
 		
 		Grade grade = gradeRepository.findBySubjectAndTeacher(subject, teacher);
@@ -115,6 +116,10 @@ public class AssignmentController {
 	@PutMapping("/update_submission")
 	ResponseEntity<AssignmentStudent> updateAssignmentStudent(@Valid @RequestBody AssignmentStudent assignmentStudent){
 		AssignmentStudent result = asRepository.save(assignmentStudent);
+		
+		recalculateGrade(result.getAssignment().getSubject(),
+				result.getAssignment().getTeacher());
+		
 		return ResponseEntity.ok().body(result);
 	}
 }

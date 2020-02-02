@@ -14,6 +14,7 @@ import com.hackuci.potatoes.procuratio.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @NoArgsConstructor
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 public class Student implements User{
 
 	@Id
+	@NonNull
 	private Long id;
 	
 	private String name;

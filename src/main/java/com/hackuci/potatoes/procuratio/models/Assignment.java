@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name="assignments")
+@Table(name="assignment")
 public class Assignment {
 
 	@Id
