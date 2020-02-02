@@ -135,4 +135,22 @@ public class AssignmentController {
 
 		return ResponseEntity.ok().body(result);
 	}
+	
+	@GetMapping("/student/{studentid}/{subject}")
+	ResponseEntity<?> getSubmissionsByStudentAndSubject(@PathVariable Long studentid, @PathVariable Subject subject) {
+		Optional<Student> student = studentRepository.findById(studentid);
+		return student.map(response -> {
+			List<Assignment> assignments = assignmentRepository.findBySubject(subject);
+			List<AssignmentStudent> submissions = new ArrayList<AssignmentStudent>();
+			for (Assignment assignment: assignments) {
+				List<AssignmentStudent> subs = asRepository.findByAssignment(assignment);
+				for (AssignmentStudent s: subs) {
+					if (s.getStudent().getId().equals(studentid)) {
+						submissions.add(s);
+					}
+				}
+			}
+			return ResponseEntity.ok().body(submissions);
+		}).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
 }
