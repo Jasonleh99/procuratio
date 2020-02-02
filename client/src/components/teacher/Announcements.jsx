@@ -9,13 +9,15 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  IconButton
 } from "@material-ui/core";
 
 import FadeIn from "react-fade-in";
 
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const CELL_COLOR = "#AEC6CF";
 
@@ -29,7 +31,6 @@ const styles = {
     width: "100%"
   },
   announcementCell: {
-    marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
   },
@@ -77,7 +78,7 @@ class Announcements extends Component {
   handleSubmit = () => {
     const name = document.querySelector("#announcement-title").value;
     const description = document.querySelector("#announcement-body").value;
-    
+
     this.setState({
       announcements: [
         ...this.state.announcements,
@@ -86,6 +87,12 @@ class Announcements extends Component {
     });
 
     this.handleClose();
+  };
+
+  handleDeleteAnnouncement = i => {
+    let array = [...this.state.announcements];
+    array.splice(i, 1);
+    this.setState({ announcements: array });
   };
 
   render() {
@@ -134,23 +141,38 @@ class Announcements extends Component {
                   <Grid container>
                     <Grid item xs style={{ paddingBottom: "10px" }}>
                       {announcements.map((announce, i) => (
-                        <Paper
-                          className={classes.announcementCell}
-                          key={"announcementCell_" + i}
+                        <Grid
+                          container
+                          alignItems="center"
+                          style={{ marginTop: 20 }}
                         >
-                          <Grid container direction="column">
-                            <Grid item xs>
-                              <Typography variant="h4">
-                                {announce.title}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs style={{ paddingTop: "15px" }}>
-                              <Typography variant="h6">
-                                {announce.body}
-                              </Typography>
-                            </Grid>
+                          <Grid item xs={11}>
+                            <Paper
+                              className={classes.announcementCell}
+                              key={"announcementCell_" + i}
+                            >
+                              <Grid container direction="column">
+                                <Grid item xs>
+                                  <Typography variant="h4">
+                                    {announce.title}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs style={{ paddingTop: "15px" }}>
+                                  <Typography variant="h6">
+                                    {announce.body}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </Paper>
                           </Grid>
-                        </Paper>
+                          <Grid item xs={1}>
+                            <IconButton
+                              onClick={() => this.handleDeleteAnnouncement(i)}
+                            >
+                              <DeleteIcon fontSize="large" />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
                       ))}
                     </Grid>
                   </Grid>

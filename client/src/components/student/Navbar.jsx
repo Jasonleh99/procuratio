@@ -10,7 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 
-import MenuIcon from '@material-ui/icons/MenuOutlined';
+import MenuIcon from "@material-ui/icons/MenuOutlined";
 
 const MENU_BACKGROUND = "#8ef5f0";
 const MENU_ITEM_HOVER = "white";
@@ -47,30 +47,34 @@ const Navbar = props => {
     <MenuList className={classes.menuWrapper}>
       <MenuList>
         <Typography variant="h6" className={classes.menuHeader}>
-          Media
-        </Typography>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/announcements") }}>
-          Announcements
-        </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/contact") }}>
-          Contact Teacher
-        </MenuItem>
-      </MenuList>
-
-      <MenuList>
-        <Typography variant="h6" className={classes.menuHeader}>
           Class
         </Typography>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/assignments") }}>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/announcements") }}
+        >
+          Announcements
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/assignments") }}
+        >
           Assignments
         </MenuItem>
         <MenuItem component={Link} to={{ pathname: prefix.concat("/grades") }}>
           Grades
         </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/resources") }}>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/resources") }}
+        >
           Resources
         </MenuItem>
       </MenuList>
+
+      <MenuItem component={Link} to={{ pathname: "/" }}>
+        Logout
+      </MenuItem>
     </MenuList>
   );
 
@@ -87,7 +91,7 @@ const Navbar = props => {
 
   return (
     <div className={classes.root}>
-      <IconButton onClick={toggleMenu(true)} style={{ marginTop: "5px"}}>
+      <IconButton onClick={toggleMenu(true)} style={{ marginTop: "5px" }}>
         <MenuIcon fontSize="large" />
       </IconButton>
       <Drawer

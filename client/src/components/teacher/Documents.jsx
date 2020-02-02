@@ -9,13 +9,16 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  IconButton
 } from "@material-ui/core";
 
 import FadeIn from "react-fade-in";
 
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const CELL_COLOR = "#ffb347";
 
@@ -29,7 +32,6 @@ const styles = {
     width: "100%"
   },
   documentCell: {
-    marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
   },
@@ -88,6 +90,12 @@ class Documents extends Component {
     this.handleClose();
   };
 
+  handleDeleteDocument = i => {
+    let array = [...this.state.documents];
+    array.splice(i, 1);
+    this.setState({ documents: array });
+  };
+
   render() {
     const { classes } = this.props;
     const { documents, teacherId, open } = this.state;
@@ -123,7 +131,7 @@ class Documents extends Component {
                           color="primary"
                           onClick={this.handleClickOpen}
                         >
-                          <Typography variant="h6">Create Resource</Typography>
+                          <Typography variant="h6">Create Document</Typography>
                         </Button>
                       </Grid>
                     </Grid>
@@ -132,20 +140,38 @@ class Documents extends Component {
                   <Grid container>
                     <Grid item xs style={{ paddingBottom: "10px" }}>
                       {documents.map((document, i) => (
-                        <Paper
-                          className={classes.documentCell}
-                          key={"documentCell_" + i}
+                        <Grid
+                          container
+                          alignItems="center"
+                          style={{ marginTop: 20 }}
                         >
-                          <a
-                            href={document.link}
-                            style={{ textDecoration: "none", color: "black" }}
-                            target="_"
-                          >
-                            <Typography variant="h4">
-                              {document.title}
-                            </Typography>
-                          </a>
-                        </Paper>
+                          <Grid item xs={11}>
+                            <Paper
+                              className={classes.documentCell}
+                              key={"documentCell_" + i}
+                            >
+                              <a
+                                href={document.link}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black"
+                                }}
+                                target="_"
+                              >
+                                <Typography variant="h4">
+                                  {document.title}
+                                </Typography>
+                              </a>
+                            </Paper>
+                          </Grid>
+                          <Grid item xs={1}>
+                            <IconButton
+                              onClick={() => this.handleDeleteDocument(i)}
+                            >
+                              <DeleteIcon fontSize="large" />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
                       ))}
                     </Grid>
                   </Grid>

@@ -9,13 +9,15 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  IconButton
 } from "@material-ui/core";
 
 import FadeIn from "react-fade-in";
 
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const CELL_COLOR = "#9999CC";
 
@@ -29,7 +31,6 @@ const styles = {
     width: "100%"
   },
   notificationCell: {
-    marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
   },
@@ -45,18 +46,17 @@ class Notifications extends Component {
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      student: {
-        name: "Beep Boop"
-      },
       notifications: [
         {
           title:
             "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
+          body: "hey hey hey",
+          parentId: "ABC"
         },
         {
           title: "sample title",
-          body: "how is it already 2"
+          body: "how is it already 2",
+          parentId: "ABC"
         }
       ],
       isLoading: true,
@@ -80,15 +80,22 @@ class Notifications extends Component {
   handleSubmit = () => {
     const name = document.querySelector("#notification-title").value;
     const description = document.querySelector("#notification-body").value;
+    
 
     this.setState({
       notifications: [
         ...this.state.notifications,
-        { title: name, body: description }
+        { title: name, body: description,  }
       ]
     });
 
     this.handleClose();
+  };
+
+  handleDeleteNotification = i => {
+    let array = [...this.state.notifications];
+    array.splice(i, 1);
+    this.setState({ notifications: array });
   };
 
   render() {
@@ -137,23 +144,38 @@ class Notifications extends Component {
                   <Grid container>
                     <Grid item xs style={{ paddingBottom: "10px" }}>
                       {notifications.map((notification, i) => (
-                        <Paper
-                          className={classes.notificationCell}
-                          key={"notificationCell_" + i}
+                        <Grid
+                          container
+                          alignItems="center"
+                          style={{ marginTop: 20 }}
                         >
-                          <Grid container direction="column">
-                            <Grid item xs>
-                              <Typography variant="h4">
-                                {notification.title}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs style={{ paddingTop: "15px" }}>
-                              <Typography variant="h6">
-                                {notification.body}
-                              </Typography>
-                            </Grid>
+                          <Grid item xs={11}>
+                            <Paper
+                              className={classes.notificationCell}
+                              key={"notificationCell_" + i}
+                            >
+                              <Grid container direction="column">
+                                <Grid item xs>
+                                  <Typography variant="h4">
+                                    {notification.title}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs style={{ paddingTop: "15px" }}>
+                                  <Typography variant="h6">
+                                    {notification.body}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </Paper>
                           </Grid>
-                        </Paper>
+                          <Grid item xs={1}>
+                            <IconButton
+                              onClick={() => this.handleDeleteNotification(i)}
+                            >
+                              <DeleteIcon fontSize="large" />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
                       ))}
                     </Grid>
                   </Grid>
