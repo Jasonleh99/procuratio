@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,5 +59,11 @@ public class AssignmentController {
 	ResponseEntity<Assignment> createAssignment(@Valid @RequestBody Assignment assignment) throws URISyntaxException{
 		Assignment result = assignmentRepository.save(assignment);
 		return ResponseEntity.created(new URI("/api/assignment" + result.getId())).body(result);
+	}
+	
+	@PutMapping("/update_assignment")
+	ResponseEntity<Assignment> updateAssignment(@Valid @RequestBody Assignment assignment){
+		Assignment result = assignmentRepository.save(assignment);
+		return ResponseEntity.ok().body(result);
 	}
 }

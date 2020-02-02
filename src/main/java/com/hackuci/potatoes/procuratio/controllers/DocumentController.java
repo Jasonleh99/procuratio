@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,12 @@ public class DocumentController {
 	ResponseEntity<Document> createDocument(@Valid @RequestBody Document document) throws URISyntaxException{
 		Document result = documentRepository.save(document);
 		return ResponseEntity.created(new URI("/api/message" + result.getId())).body(result);
+	}
+	
+	@PutMapping("/new_document")
+	ResponseEntity<Document> updateDocument(@Valid @RequestBody Document document){
+		Document result = documentRepository.save(document);
+		return ResponseEntity.ok().body(result);
 	}
 
 }
