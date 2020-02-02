@@ -65,7 +65,7 @@ public class TeacherController {
 			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
-	@GetMapping("/parent/{teacherid}")
+	@GetMapping("/parentroster/{teacherid}")
 	ResponseEntity<?> getParents(@PathVariable Long parentid) {
 		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
 		if (teacher.isPresent()) {
