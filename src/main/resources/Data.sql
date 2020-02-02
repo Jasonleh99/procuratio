@@ -1,10 +1,10 @@
 --  1    2     3       4         5
 -- id, login, name, password, usertype (0-2)
-insert into user values (1, 'John', 'john123', 'qwerty', 0);
-insert into user values (2, 'Kerry', 'kerry123', 'qwerty', 0);
-insert into user values (3, 'Jason', 'jason123', 'qwerty', 1);
-insert into user values (4, 'Gina', 'gina123', 'qwerty', 1);
-insert into user values (5, 'Jimmy', 'jimmy123', 'qwerty', 2);
+insert into user values (1, 'john123', 'John', 'qwerty', 0);
+insert into user values (2, 'kerry123', 'Kerry', 'qwerty', 0);
+insert into user values (3, 'jason123', 'Jason', 'qwerty', 1);
+insert into user values (4, 'gina123', 'Gina', 'qwerty', 1);
+insert into user values (5, 'jimmy123', 'Jimmy', 'qwerty', 2);
 
 -- id, classname, userid
 insert into teacher values (200, 'Kingsleys Class', 5);
