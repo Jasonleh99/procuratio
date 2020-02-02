@@ -14,11 +14,10 @@ import {
 
 import FadeIn from "react-fade-in";
 
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#FF6961";
+const CELL_COLOR = "#ffb347";
 
 const styles = {
   container: {
@@ -29,7 +28,7 @@ const styles = {
     marginTop: 100,
     width: "100%"
   },
-  assignmentCell: {
+  documentCell: {
     marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
@@ -40,32 +39,20 @@ const styles = {
   }
 };
 
-class Assignments extends Component {
+class Documents extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      assignments: [
+      documents: [
         {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
+          title: "Document 1",
+          link: "https://google.com"
         },
         {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
-        },
-        {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
-        },
-        {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
+          title: "RESOURCE 2",
+          link: "https://facebook.com"
         }
       ],
       isLoading: true,
@@ -87,26 +74,23 @@ class Assignments extends Component {
 
   // implement function to make an api call
   handleSubmit = () => {
-    const name = document.querySelector("#assignment-name").value;
-    const dueDate = document.querySelector("#due-date").value;
-    const maxScore = parseInt(document.querySelector("#max-score").value);
+    const name = document.querySelector("#document-title").value;
+    let description = document.querySelector("#document-link").value;
+
+    if (description.indexOf("http") === -1) {
+      description = "https://".concat(description);
+    }
 
     this.setState({
-      assignments: [
-        ...this.state.assignments,
-        {
-          title: name,
-          dueDate: dueDate,
-          maxScore: maxScore
-        }
-      ]
+      documents: [...this.state.documents, { title: name, link: description }]
     });
+
     this.handleClose();
   };
 
   render() {
     const { classes } = this.props;
-    const { assignments, open, teacherId } = this.state;
+    const { documents, teacherId, open } = this.state;
 
     return (
       <>
@@ -120,12 +104,12 @@ class Assignments extends Component {
             spacing={2}
           >
             <Grid item className={classes.fullWidth}>
-              <Grid container>
+              <Grid item container>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
                   <Grid container>
                     <Grid item xs>
-                      <Typography variant="h2">Assignments</Typography>
+                      <Typography variant="h2">Important Documents</Typography>
                     </Grid>
                     <Grid item xs>
                       <Grid
@@ -139,40 +123,32 @@ class Assignments extends Component {
                           color="primary"
                           onClick={this.handleClickOpen}
                         >
-                          <Typography variant="h6">
-                            Create Assignment
-                          </Typography>
+                          <Typography variant="h6">Create Resource</Typography>
                         </Button>
                       </Grid>
                     </Grid>
                   </Grid>
-                  {assignments.map((assignment, i) => (
-                    <Link
-                      to={{ pathname: "/current-assignment/upload" }}
-                      style={{ textDecoration: "none" }}
-                      key={"assignmentCell_" + i}
-                    >
-                      <Paper className={classes.assignmentCell}>
-                        <Grid container>
-                          <Grid item md={8} xs>
-                            <Typography variant="h5">
-                              {assignment.title}
+
+                  <Grid container>
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
+                      {documents.map((document, i) => (
+                        <Paper
+                          className={classes.documentCell}
+                          key={"documentCell_" + i}
+                        >
+                          <a
+                            href={document.link}
+                            style={{ textDecoration: "none", color: "black" }}
+                            target="_"
+                          >
+                            <Typography variant="h4">
+                              {document.title}
                             </Typography>
-                          </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              {assignment.dueDate}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              Max Score: {assignment.maxScore}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Paper>
-                    </Link>
-                  ))}
+                          </a>
+                        </Paper>
+                      ))}
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={1} />
               </Grid>
@@ -182,41 +158,24 @@ class Assignments extends Component {
         <Dialog
           open={open}
           onClose={this.handleClose}
-          aria-labelledby="assignment-dialog"
+          aria-labelledby="document-dialog"
         >
-          <DialogTitle id="assignment-dialog">New Assignment</DialogTitle>
+          <DialogTitle id="document-dialog">New Document</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Create a new assignment by specifying the assignment name, the due
-              date, and the maximum score a student can achieve.
+              Create a new document by specifying the title and a link to your
+              document.
             </DialogContentText>
             <Grid container direction="column">
               <Grid item container xs>
                 <TextField
                   autoFocus
-                  id="assignment-name"
-                  label="Assignment Name"
+                  id="document-title"
+                  label="Document Title"
                   fullWidth
                   style={{ paddingBottom: "30px" }}
                 />
-                <Grid container>
-                  <Grid item xs>
-                    <TextField
-                      id="due-date"
-                      label="Due Date (mm/dd/yyyy)"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={1} />
-                  <Grid item xs>
-                    <TextField
-                      type="number"
-                      id="max-score"
-                      label="Max Score"
-                      fullWidth
-                    />
-                  </Grid>
-                </Grid>
+                <TextField id="document-link" label="Document Link" fullWidth />
               </Grid>
             </Grid>
           </DialogContent>
@@ -242,4 +201,4 @@ class Assignments extends Component {
   }
 }
 
-export default withStyles(styles)(Assignments);
+export default withStyles(styles)(Documents);

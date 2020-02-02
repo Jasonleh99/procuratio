@@ -129,7 +129,7 @@ class Summary extends Component {
                     <Grid
                       item
                       xs
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                      style={{ paddingBottom: "10px"}}
                     >
                       {/* Announcement Section  */}
                       <Typography variant="h4" style={{ paddingTop: "30px" }}>

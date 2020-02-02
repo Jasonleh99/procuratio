@@ -77,7 +77,7 @@ class Resources extends Component {
                     <Grid
                       item
                       xs
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                      style={{ paddingBottom: "10px"}}
                     >
                       {resources.map((resource, i) => (
                         <Paper

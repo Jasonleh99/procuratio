@@ -14,11 +14,10 @@ import {
 
 import FadeIn from "react-fade-in";
 
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#FF6961";
+const CELL_COLOR = "#FFCCCC";
 
 const styles = {
   container: {
@@ -29,7 +28,7 @@ const styles = {
     marginTop: 100,
     width: "100%"
   },
-  assignmentCell: {
+  resourceCell: {
     marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
@@ -40,32 +39,20 @@ const styles = {
   }
 };
 
-class Assignments extends Component {
+class Resources extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      assignments: [
+      resources: [
         {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
+          title: "Resource 1",
+          body: "YES"
         },
         {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
-        },
-        {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
-        },
-        {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
+          title: "RESOURCE 2",
+          body: "F U C K"
         }
       ],
       isLoading: true,
@@ -87,26 +74,19 @@ class Assignments extends Component {
 
   // implement function to make an api call
   handleSubmit = () => {
-    const name = document.querySelector("#assignment-name").value;
-    const dueDate = document.querySelector("#due-date").value;
-    const maxScore = parseInt(document.querySelector("#max-score").value);
+    const name = document.querySelector("#resource-name").value;
+    const description = document.querySelector("#resource-description").value;
 
     this.setState({
-      assignments: [
-        ...this.state.assignments,
-        {
-          title: name,
-          dueDate: dueDate,
-          maxScore: maxScore
-        }
-      ]
+      resources: [...this.state.resources, { title: name, body: description }]
     });
+
     this.handleClose();
   };
 
   render() {
     const { classes } = this.props;
-    const { assignments, open, teacherId } = this.state;
+    const { resources, teacherId, open } = this.state;
 
     return (
       <>
@@ -120,12 +100,12 @@ class Assignments extends Component {
             spacing={2}
           >
             <Grid item className={classes.fullWidth}>
-              <Grid container>
+              <Grid item container>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
                   <Grid container>
                     <Grid item xs>
-                      <Typography variant="h2">Assignments</Typography>
+                      <Typography variant="h2">Resources</Typography>
                     </Grid>
                     <Grid item xs>
                       <Grid
@@ -139,40 +119,35 @@ class Assignments extends Component {
                           color="primary"
                           onClick={this.handleClickOpen}
                         >
-                          <Typography variant="h6">
-                            Create Assignment
-                          </Typography>
+                          <Typography variant="h6">Create Resource</Typography>
                         </Button>
                       </Grid>
                     </Grid>
                   </Grid>
-                  {assignments.map((assignment, i) => (
-                    <Link
-                      to={{ pathname: "/current-assignment/upload" }}
-                      style={{ textDecoration: "none" }}
-                      key={"assignmentCell_" + i}
-                    >
-                      <Paper className={classes.assignmentCell}>
-                        <Grid container>
-                          <Grid item md={8} xs>
-                            <Typography variant="h5">
-                              {assignment.title}
-                            </Typography>
+
+                  <Grid container>
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
+                      {resources.map((resource, i) => (
+                        <Paper
+                          className={classes.resourceCell}
+                          key={"resourceCell_" + i}
+                        >
+                          <Grid container direction="column">
+                            <Grid item xs>
+                              <Typography variant="h4">
+                                {resource.title}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs>
+                              <Typography variant="h6">
+                                {resource.body}
+                              </Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              {assignment.dueDate}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              Max Score: {assignment.maxScore}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Paper>
-                    </Link>
-                  ))}
+                        </Paper>
+                      ))}
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={1} />
               </Grid>
@@ -182,41 +157,28 @@ class Assignments extends Component {
         <Dialog
           open={open}
           onClose={this.handleClose}
-          aria-labelledby="assignment-dialog"
+          aria-labelledby="resource-dialog"
         >
-          <DialogTitle id="assignment-dialog">New Assignment</DialogTitle>
+          <DialogTitle id="resource-dialog">New Assignment</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Create a new assignment by specifying the assignment name, the due
-              date, and the maximum score a student can achieve.
+              Create a new resource by specifying the name of your resource and
+              a description of it (can put a link for students to access).
             </DialogContentText>
             <Grid container direction="column">
               <Grid item container xs>
                 <TextField
                   autoFocus
-                  id="assignment-name"
-                  label="Assignment Name"
+                  id="resource-name"
+                  label="Resource Name"
                   fullWidth
                   style={{ paddingBottom: "30px" }}
                 />
-                <Grid container>
-                  <Grid item xs>
-                    <TextField
-                      id="due-date"
-                      label="Due Date (mm/dd/yyyy)"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={1} />
-                  <Grid item xs>
-                    <TextField
-                      type="number"
-                      id="max-score"
-                      label="Max Score"
-                      fullWidth
-                    />
-                  </Grid>
-                </Grid>
+                <TextField
+                  id="resource-description"
+                  label="Resource Description"
+                  fullWidth
+                />
               </Grid>
             </Grid>
           </DialogContent>
@@ -242,4 +204,4 @@ class Assignments extends Component {
   }
 }
 
-export default withStyles(styles)(Assignments);
+export default withStyles(styles)(Resources);

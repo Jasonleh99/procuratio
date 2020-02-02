@@ -14,11 +14,10 @@ import {
 
 import FadeIn from "react-fade-in";
 
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#FF6961";
+const CELL_COLOR = "#9999CC";
 
 const styles = {
   container: {
@@ -29,7 +28,7 @@ const styles = {
     marginTop: 100,
     width: "100%"
   },
-  assignmentCell: {
+  notificationCell: {
     marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
@@ -40,32 +39,24 @@ const styles = {
   }
 };
 
-class Assignments extends Component {
+class Notifications extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       teacherId: this.props.match.params.teacher_id,
-      assignments: [
+      student: {
+        name: "Beep Boop"
+      },
+      notifications: [
         {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
+          title:
+            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
+          body: "hey hey hey"
         },
         {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
-        },
-        {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          maxScore: 5
-        },
-        {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          maxScore: 5
+          title: "sample title",
+          body: "how is it already 2"
         }
       ],
       isLoading: true,
@@ -87,26 +78,22 @@ class Assignments extends Component {
 
   // implement function to make an api call
   handleSubmit = () => {
-    const name = document.querySelector("#assignment-name").value;
-    const dueDate = document.querySelector("#due-date").value;
-    const maxScore = parseInt(document.querySelector("#max-score").value);
+    const name = document.querySelector("#notification-title").value;
+    const description = document.querySelector("#notification-body").value;
 
     this.setState({
-      assignments: [
-        ...this.state.assignments,
-        {
-          title: name,
-          dueDate: dueDate,
-          maxScore: maxScore
-        }
+      notifications: [
+        ...this.state.notifications,
+        { title: name, body: description }
       ]
     });
+
     this.handleClose();
   };
 
   render() {
     const { classes } = this.props;
-    const { assignments, open, teacherId } = this.state;
+    const { notifications, teacherId, open } = this.state;
 
     return (
       <>
@@ -120,12 +107,12 @@ class Assignments extends Component {
             spacing={2}
           >
             <Grid item className={classes.fullWidth}>
-              <Grid container>
+              <Grid item container>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
                   <Grid container>
                     <Grid item xs>
-                      <Typography variant="h2">Assignments</Typography>
+                      <Typography variant="h2">Notifications</Typography>
                     </Grid>
                     <Grid item xs>
                       <Grid
@@ -140,39 +127,36 @@ class Assignments extends Component {
                           onClick={this.handleClickOpen}
                         >
                           <Typography variant="h6">
-                            Create Assignment
+                            Create Notification
                           </Typography>
                         </Button>
                       </Grid>
                     </Grid>
                   </Grid>
-                  {assignments.map((assignment, i) => (
-                    <Link
-                      to={{ pathname: "/current-assignment/upload" }}
-                      style={{ textDecoration: "none" }}
-                      key={"assignmentCell_" + i}
-                    >
-                      <Paper className={classes.assignmentCell}>
-                        <Grid container>
-                          <Grid item md={8} xs>
-                            <Typography variant="h5">
-                              {assignment.title}
-                            </Typography>
+
+                  <Grid container>
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
+                      {notifications.map((notification, i) => (
+                        <Paper
+                          className={classes.notificationCell}
+                          key={"notificationCell_" + i}
+                        >
+                          <Grid container direction="column">
+                            <Grid item xs>
+                              <Typography variant="h4">
+                                {notification.title}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs style={{ paddingTop: "15px" }}>
+                              <Typography variant="h6">
+                                {notification.body}
+                              </Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              {assignment.dueDate}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={2} xs>
-                            <Typography variant="h5">
-                              Max Score: {assignment.maxScore}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </Paper>
-                    </Link>
-                  ))}
+                        </Paper>
+                      ))}
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={1} />
               </Grid>
@@ -182,41 +166,28 @@ class Assignments extends Component {
         <Dialog
           open={open}
           onClose={this.handleClose}
-          aria-labelledby="assignment-dialog"
+          aria-labelledby="notification-dialog"
         >
-          <DialogTitle id="assignment-dialog">New Assignment</DialogTitle>
+          <DialogTitle id="notification-dialog">New Announcement</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Create a new assignment by specifying the assignment name, the due
-              date, and the maximum score a student can achieve.
+              Create a new announcement by specifying the title and body of your
+              announcement.
             </DialogContentText>
             <Grid container direction="column">
               <Grid item container xs>
                 <TextField
                   autoFocus
-                  id="assignment-name"
-                  label="Assignment Name"
+                  id="notification-title"
+                  label="Notification Title"
                   fullWidth
                   style={{ paddingBottom: "30px" }}
                 />
-                <Grid container>
-                  <Grid item xs>
-                    <TextField
-                      id="due-date"
-                      label="Due Date (mm/dd/yyyy)"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={1} />
-                  <Grid item xs>
-                    <TextField
-                      type="number"
-                      id="max-score"
-                      label="Max Score"
-                      fullWidth
-                    />
-                  </Grid>
-                </Grid>
+                <TextField
+                  id="notification-body"
+                  label="Notification Body"
+                  fullWidth
+                />
               </Grid>
             </Grid>
           </DialogContent>
@@ -242,4 +213,4 @@ class Assignments extends Component {
   }
 }
 
-export default withStyles(styles)(Assignments);
+export default withStyles(styles)(Notifications);

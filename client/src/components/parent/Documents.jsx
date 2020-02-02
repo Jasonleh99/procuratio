@@ -78,7 +78,7 @@ class Documents extends Component {
                     <Grid
                       item
                       xs
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                      style={{ paddingBottom: "10px"}}
                     >
                       {documents.map((document, i) => (
                         <Paper

@@ -86,7 +86,7 @@ class Assignments extends Component {
                     <Grid
                       item
                       xs
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                      style={{ paddingBottom: "10px"}}
                     >
                       {assignments.map((assignment, i) => (
                         <Paper

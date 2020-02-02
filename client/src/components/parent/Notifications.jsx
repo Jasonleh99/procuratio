@@ -81,7 +81,7 @@ class Notifications extends Component {
                     <Grid
                       item
                       xs
-                      style={{ paddingBottom: "10px", marginRight: "40px" }}
+                      style={{ paddingBottom: "10px"}}
                     >
                       {notifications.map((notification, i) => (
                         <Paper

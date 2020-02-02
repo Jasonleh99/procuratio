@@ -49,12 +49,6 @@ const Navbar = props => {
         </Typography>
         <MenuItem
           component={Link}
-          to={{ pathname: prefix.concat("/class-summary") }}
-        >
-          Class Summary
-        </MenuItem>
-        <MenuItem
-          component={Link}
           to={{ pathname: prefix.concat("/class-roster") }}
         >
           Class Roster
