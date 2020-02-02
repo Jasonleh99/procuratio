@@ -4,7 +4,7 @@ import Uppy from "@uppy/core";
 import Tus from "@uppy/tus";
 import { DashboardModal } from "@uppy/react";
 
-import { Button, Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 class AvatarPicker extends Component {
   state = { modalOpen: false };
@@ -18,7 +18,6 @@ class AvatarPicker extends Component {
 
   render() {
     const { handleUploadCompleted } = this.props;
-    const { url } = this.state;
 
     this.uppy = Uppy({
       meta: { type: "avatar" },
