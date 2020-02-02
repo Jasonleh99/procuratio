@@ -66,7 +66,7 @@ public class TeacherController {
 	}
 	
 	@GetMapping("/parentroster/{teacherid}")
-	ResponseEntity<?> getParents(@PathVariable Long parentid) {
+	ResponseEntity<?> getParents(@PathVariable Long teacherid) {
 		Optional<Teacher> teacher = teacherRepository.findById(teacherid);
 		if (teacher.isPresent()) {
 			List<Student> students = studentRepository.findByTeacher(teacher.get());
