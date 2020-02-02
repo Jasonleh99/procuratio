@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/styles";
 
 import Landing from "./components/Landing";
 
@@ -30,10 +29,8 @@ import TAssignments from "./components/teacher/Assignments";
 // import TResources from "./components/teacher/Resources";
 // import TDocuments from "./components/teacher/Documents";
 
-
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
     height: "100%"
   }
 }));
@@ -47,7 +44,6 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Landing} />
           {/* <Route exact path="/parent/:parentId" /> Need to add features to landing so it's more dynamic */}
-
           {/* Student paths */}
           <Route
             exact
@@ -69,7 +65,6 @@ const App = () => {
             path="/:student_id/student/resources"
             render={props => <SResources {...props} />}
           />
-
           {/* Parent paths */}
           <Route
             exact
@@ -106,7 +101,6 @@ const App = () => {
             path="/:parent_id/parent/announcements"
             render={props => <PAnnouncements {...props} />}
           />
-
           {/* Teacher paths */}
           <Route
             exact
@@ -153,15 +147,5 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
-const THEME = createMuiTheme({
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontSize: 14,
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 500
-  }
-});
 
 export default App;
