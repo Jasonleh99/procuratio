@@ -15,7 +15,7 @@ import {
   Button
 } from "@material-ui/core";
 
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 /* Icons on the Landing page */
 import StudentLogo from "../svg/001-superhero.svg";
@@ -26,7 +26,7 @@ import CompanyLogo from "../svg/flasks.svg";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    backgroundColor: "#efe5fd",
+    backgroundColor: "#F0F0FF",
     maxHeight: "100%",
     maxWidth: "100%",
     height: "100%"
@@ -92,11 +92,11 @@ const Hero = () => {
     setOpen({ teacherOpen: false });
   };
 
-  const handleSubmit = user => {
-    if(user === 'Teacher') {
+  // const handleSubmit = user => {
+  //   if(user === 'Teacher') {
       
-    }
-  };
+  //   }
+  // };
 
   const classes = useStyles();
 
@@ -304,7 +304,7 @@ const Hero = () => {
             component={Link}
             variant="contained"
             color="primary"
-            to={{ pathname: "/200/teacher/class-roster" }}
+            to={{ pathname: "/100/" }}
           >
             Login
           </Button>

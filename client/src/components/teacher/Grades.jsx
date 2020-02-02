@@ -23,7 +23,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 

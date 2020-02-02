@@ -6,7 +6,7 @@ import FadeIn from "react-fade-in";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#ffb347";
+const CELL_COLOR = "#DEC0F1" // "#ffb347";
 
 const styles = {
   container: {
@@ -24,7 +24,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 

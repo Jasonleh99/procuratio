@@ -6,7 +6,7 @@ import FadeIn from "react-fade-in";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#AEC6CF";
+const CELL_COLOR = "#DEC0F1" // "#AEC6CF";
 
 const styles = {
   container: {
@@ -24,7 +24,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 
@@ -34,12 +35,7 @@ class Announcements extends Component {
 
     this.state = {
       studentId: this.props.match.params.student_id,
-      announcements: [
-        // {
-        //   title: "sample title",
-        //   body: "sample body"
-        // }
-      ],
+      announcements: [],
       isLoading: true
     };
   }

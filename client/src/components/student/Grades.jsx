@@ -8,7 +8,7 @@ import Navbar from "./Navbar";
 
 import { Chart } from "react-google-charts";
 
-const CELL_COLOR = "#2ECC71";
+const CELL_COLOR = "#DEC0F1" // "#2ECC71";
 
 const styles = {
   container: {
@@ -30,7 +30,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 

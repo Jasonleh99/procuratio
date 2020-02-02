@@ -29,7 +29,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 
@@ -58,11 +59,11 @@ class Roster extends Component {
     };
   }
 
-  async componentDidMount() {
-    const response = await fetch(`/api/teacher/${this.state.teacherId}`);
-    const body = await response.json();
+  componentDidMount() {
+    // const response = await fetch(`/api/teacher/${this.state.teacherId}`);
+    // const body = await response.json();
 
-    console.log(body);
+    // console.log(body);
 
     // let students = [];
     // body.forEach(el => {
@@ -117,20 +118,20 @@ class Roster extends Component {
 
       // const u_id = Math.random() * 99999999;
       // const u2_id = Math.random() * 99999999;
-      const u_id = 90;
-      const u2_id = 91;
+      // const u_id = 90;
+      // const u2_id = 91;
 
       // const s_id = Math.random() * 99999999;
-      const s_id = 1;
+      // const s_id = 1;
 
       const p_username = parents[i].split(" ").join("");
       const p_password = Math.random()
         .toString(36)
         .slice(-8);
       // const p_id = Math.random() * 99999999;
-      const p_id = 2;
+      // const p_id = 2;
 
-      const teacher_id = this.state.teacherId;
+      // const teacher_id = this.state.teacherId;
 
       studentArr.unshift({
         name: students[i],
@@ -143,80 +144,89 @@ class Roster extends Component {
         name: parents[i],
         username: p_username,
         password: p_password,
-        parent: students[i]
+        student: students[i]
       });
 
-      await fetch(`/api/new_user`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: students[i],
-          login: s_username,
-          password: s_password,
-          id: u_id
-        })
-      }).then(async () => {
-        await fetch(`/api/new_student`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            user: {
-              id: u_id
-            },
-            id: s_id,
-            parent: {
-              id: null
-            },
-            teacher: {
-              id: teacher_id
-            }
-          })
-        }).then(async () => {
-          await fetch(`/api/new_user`, {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              name: parents[i],
-              login: p_username,
-              password: p_password,
-              id: u2_id
-            })
-          }).then(async () => {
-            await fetch(`/api/new_parent`, {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                user: {
-                  id: u2_id
-                },
-                id: p_id,
-                student: {
-                  id: s_id
-                }
-              })
-            });
-          });
-        });
-      });
+      // let response = await fetch(`/api/new_user`, {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     name: students[i],
+      //     login: s_username,
+      //     password: s_password,
+      //     id: u_id
+      //   })
+      // });
+
+      // let response2 = await fetch(`/api/new_user`, {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     name: parents[i],
+      //     login: p_username,
+      //     password: p_password,
+      //     id: u2_id
+      //   })
+      // });
+
+      // setTimeout(
+      //   await fetch(`/api/new_student`, {
+      //     method: "POST",
+      //     headers: {
+      //       Accept: "application/json",
+      //       "Content-Type": "application/json"
+      //     },
+      //     body: JSON.stringify({
+      //       user: {
+      //         id: u_id
+      //       },
+      //       id: s_id,
+      //       parent: {
+      //         id: null
+      //       },
+      //       teacher: {
+      //         id: teacher_id
+      //       },
+      //       pairid: null
+      //     })
+      //   }),
+      //   10000
+      // );
+
+      // setTimeout(
+      //   await fetch(`/api/new_parent`, {
+      //     method: "POST",
+      //     headers: {
+      //       Accept: "application/json",
+      //       "Content-Type": "application/json"
+      //     },
+      //     body: JSON.stringify({
+      //       user: {
+      //         id: u2_id
+      //       },
+      //       id: p_id,
+      //       student: {
+      //         id: s_id
+      //       }
+      //     })
+      //   }),
+      //   15000
+      // );
     }
+
+    this.setState({ students: studentArr, parents: parentArr });
 
     this.handleClose();
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props; 
     const {
       students,
       studentColumns,
@@ -296,7 +306,7 @@ class Roster extends Component {
             <DialogContentText>
               Generate student and parent accounts for your class. In their
               respective text fields, put a separate name for each person in the
-              class in the format of [LAST_NAME], [FIRST_NAME].
+              class in the format of [FIRST_NAME] [LAST_NAME].
             </DialogContentText>
             <Grid container direction="column">
               <Grid item container xs>

@@ -20,7 +20,7 @@ import Navbar from "./Navbar";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const CELL_COLOR = "#FFCCCC";
+const CELL_COLOR = "#DEC0F1" // "#FFCCCC";
 
 const styles = {
   container: {
@@ -37,7 +37,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 

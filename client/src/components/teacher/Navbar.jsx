@@ -10,9 +10,9 @@ import {
   IconButton
 } from "@material-ui/core";
 
-import MenuIcon from '@material-ui/icons/MenuOutlined';
+import MenuIcon from "@material-ui/icons/MenuOutlined";
 
-const MENU_BACKGROUND = "#8ef5f0";
+const MENU_BACKGROUND = "#9965F4";
 const MENU_ITEM_HOVER = "white";
 
 const useStyles = makeStyles(theme => ({
@@ -44,65 +44,91 @@ const Navbar = props => {
   const prefix = "/" + props.teacherId + "/teacher";
 
   const menu = (
-    <MenuList className={classes.menuWrapper}>
+    <MenuList>
       <MenuList>
-        <Typography variant="h6" className={classes.menuHeader}>
+        <Typography
+          variant="h6"
+          className={classes.menuHeader}
+          style={{ color: "white" }}
+        >
           Class
         </Typography>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/class-roster") }}
+          style={{ color: "white" }}
         >
           Class Roster
         </MenuItem>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/assignments") }}
+          style={{ color: "white" }}
         >
           Assignments
         </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/grades") }}>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/grades") }}
+          style={{ color: "white" }}
+        >
           Grades
         </MenuItem>
       </MenuList>
 
       <MenuList>
-        <Typography variant="h6" className={classes.menuHeader}>
+        <Typography
+          variant="h6"
+          className={classes.menuHeader}
+          style={{ color: "white" }}
+        >
           Media
         </Typography>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/announcements") }}
+          style={{ color: "white" }}
         >
           Announcements
         </MenuItem>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/notifications") }}
+          style={{ color: "white" }}
         >
           Notifications
         </MenuItem>
       </MenuList>
 
       <MenuList>
-        <Typography variant="h6" className={classes.menuHeader}>
+        <Typography
+          variant="h6"
+          className={classes.menuHeader}
+          style={{ color: "white" }}
+        >
           Files
         </Typography>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/resources") }}
+          style={{ color: "white" }}
         >
           Resources
         </MenuItem>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/documents") }}
+          style={{ color: "white" }}
         >
           Documents
         </MenuItem>
       </MenuList>
 
-      <MenuItem component={Link} to={{ pathname: "/" }}>
+      <MenuItem
+        component={Link}
+        to={{ pathname: "/" }}
+        style={{ color: "white" }}
+      >
         Logout
       </MenuItem>
     </MenuList>
@@ -121,7 +147,7 @@ const Navbar = props => {
 
   return (
     <div className={classes.root}>
-      <IconButton onClick={toggleMenu(true)} style={{ marginTop: "5px"}}>
+      <IconButton onClick={toggleMenu(true)} style={{ marginTop: "5px" }}>
         <MenuIcon fontSize="large" />
       </IconButton>
       <Drawer

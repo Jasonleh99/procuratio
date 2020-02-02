@@ -8,8 +8,8 @@ import Navbar from "./Navbar";
 
 import { Chart } from "react-google-charts";
 
-const ASSIGNMENT_CELL_COLOR = "#FF6961";
-const ANNOUNCEMENT_CELL_COLOR = "#AEC6CF";
+const ASSIGNMENT_CELL_COLOR = "#DEC0F1" // "#FF6961";
+const ANNOUNCEMENT_CELL_COLOR = "#DEC0F1" // "#AEC6CF";
 
 const styles = {
   container: {
@@ -32,7 +32,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 
@@ -45,39 +46,9 @@ class Summary extends Component {
       student: {
         name: "Beep Boop"
       },
-      announcements: [
-        {
-          title: "sample announcement",
-          body: "test"
-        }
-      ],
-      assignments: [
-        {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          dueDate: "12/25/2019",
-          studentScore: 5,
-          totalScore: 5
-        },
-        {
-          title: "sample title",
-          dueDate: "11/25/2020",
-          studentScore: 5,
-          totalScore: 5
-        }
-      ],
-      grades: [
-        {
-          subject: "Math",
-          studentScore: 10,
-          totalScore: 15
-        },
-        {
-          subject: "English",
-          studentScore: 5,
-          totalScore: 10
-        }
-      ],
+      announcements: [],
+      assignments: [],
+      grades: [],
       isLoading: true
     };
   }
@@ -145,7 +116,7 @@ class Summary extends Component {
     });
 
     this.setState({ assignments: assignments });
-  }  
+  }
 
   convertToProperCase(sub) {
     let subject = sub.toLowerCase();
@@ -194,11 +165,7 @@ class Summary extends Component {
                   </Typography>
 
                   <Grid container>
-                    <Grid
-                      item
-                      xs
-                      style={{ paddingBottom: "10px"}}
-                    >
+                    <Grid item xs style={{ paddingBottom: "10px" }}>
                       {/* Announcement Section  */}
                       <Typography variant="h4" style={{ paddingTop: "30px" }}>
                         Announcements
@@ -254,7 +221,10 @@ class Summary extends Component {
                       ))}
 
                       {/* Grade Section */}
-                      <Typography variant="h4" style={{ paddingTop: "30px", paddingBottom: "10px"}}>
+                      <Typography
+                        variant="h4"
+                        style={{ paddingTop: "30px", paddingBottom: "10px" }}
+                      >
                         Grades
                       </Typography>
                       <Chart

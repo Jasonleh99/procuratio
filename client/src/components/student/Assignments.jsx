@@ -6,7 +6,7 @@ import FadeIn from "react-fade-in";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#FF6961";
+const CELL_COLOR = "#DEC0F1" // "#FF6961";
 
 const styles = {
   container: {
@@ -24,7 +24,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 
@@ -34,20 +35,7 @@ class Assignments extends Component {
 
     this.state = {
       studentId: this.props.match.params.student_id,
-      assignments: [
-        {
-          title: "Multiplication Practice",
-          dueDate: "12/25/2019",
-          studentScore: 5,
-          totalScore: 5
-        },
-        {
-          title: "Division Practice",
-          dueDate: "12/26/2019",
-          studentScore: 4,
-          totalScore: 5
-        }
-      ],
+      assignments: [],
       isLoading: true
     };
   }

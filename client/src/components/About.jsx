@@ -6,7 +6,8 @@ import AboutLogo from "../svg/016-superhero.svg";
 const useStyles = makeStyles(theme => ({
   container: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    backgroundColor: "#9146FF"
   }
 }));
 
@@ -15,11 +16,10 @@ const About = () => {
 
   return (
     <Grid container className={classes.container}>
-      <Grid item xs={1} />
       <Grid item container justify="center">
-        <Grid item container direction="column" justify="center" xs={6}>
+        <Grid item container direction="column" justify="center" xs={7}>
           <Typography
-            variant="h2"
+            variant="h1"
             style={{
               maxHeight: "100%",
               maxWidth: "100%",
@@ -33,12 +33,12 @@ const About = () => {
               About Us
             </Box>
           </Typography>
-          <Typography variant="h4">
+          <Typography variant="h2">
             <Box fontWeight="fontWeightBold" style={{ margin: 0 }}>
               It just got a whole lot easier to manage a classroom.
             </Box>
           </Typography>
-          <Typography variant="h4">
+          <Typography variant="h3">
             We connect elementary school teachers with students and parents to
             build amazing communities.
           </Typography>
@@ -48,8 +48,7 @@ const About = () => {
             src={AboutLogo}
             style={{
               maxWidth: "100%",
-              maxHeight: "100%",
-              paddingLeft: "10em"
+              maxHeight: "100%"
             }}
             alt="about-logo"
           />

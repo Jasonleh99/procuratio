@@ -12,7 +12,7 @@ import {
 
 import MenuIcon from "@material-ui/icons/MenuOutlined";
 
-const MENU_BACKGROUND = "#8ef5f0";
+const MENU_BACKGROUND = "#9965F4";
 const MENU_ITEM_HOVER = "white";
 
 const useStyles = makeStyles(theme => ({
@@ -44,35 +44,46 @@ const Navbar = props => {
   const prefix = "/" + props.studentId + "/student";
 
   const menu = (
-    <MenuList className={classes.menuWrapper}>
+    <MenuList className={classes.menuHeader}>
       <MenuList>
-        <Typography variant="h6" className={classes.menuHeader}>
+        <Typography variant="h6" style={{ color: "white" }}>
           Class
         </Typography>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/announcements") }}
+          style={{ color: "white" }}
         >
           Announcements
         </MenuItem>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/assignments") }}
+          style={{ color: "white" }}
         >
           Assignments
         </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/grades") }}>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/grades") }}
+          style={{ color: "white" }}
+        >
           Grades
         </MenuItem>
         <MenuItem
           component={Link}
           to={{ pathname: prefix.concat("/resources") }}
+          style={{ color: "white" }}
         >
           Resources
         </MenuItem>
       </MenuList>
 
-      <MenuItem component={Link} to={{ pathname: "/" }}>
+      <MenuItem
+        component={Link}
+        to={{ pathname: "/" }}
+        style={{ color: "white" }}
+      >
         Logout
       </MenuItem>
     </MenuList>

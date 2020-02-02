@@ -29,7 +29,7 @@ import UppyModal from "./UppyModal";
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
 
-const CELL_COLOR = "#FF6961";
+const CELL_COLOR = "#DEC0F1" // "#FF6961";
 
 const styles = {
   container: {
@@ -46,7 +46,8 @@ const styles = {
   },
   fadeIn: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#F0F0FF"
   }
 };
 
