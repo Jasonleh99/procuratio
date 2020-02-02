@@ -12,9 +12,13 @@ import {
   DialogActions
 } from "@material-ui/core";
 
+import FadeIn from "react-fade-in";
+
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+
+const CELL_COLOR = "#FF6961";
 
 const styles = {
   container: {
@@ -22,18 +26,27 @@ const styles = {
     maxHeight: "100%"
   },
   fullWidth: {
+    marginTop: 100,
     width: "100%"
   },
-  fullButton: {
+  assignmentCell: {
     height: "100%",
-    width: "auto"
+    width: "auto",
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: CELL_COLOR
+  },
+  fadeIn: {
+    height: "100%",
+    width: "100%"
   }
 };
 
 class Assignments extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
+      teacherId: this.props.match.params.parent_id,
       assignments: [
         {
           title: "Multiplication Practice",
@@ -113,7 +126,7 @@ class Assignments extends Component {
                   </Grid>
                 </Grid>
                 {assignments.map(assignment => (
-                  <Link to={{ pathname: "/current-assignment/upload" }}>
+                  <Link to={{ pathname: "/current-assignment/upload" }} style={{ textDecoration: "none" }}>
                     <Paper style={{ marginBottom: "100px" }}>
                       <Grid container>
                         <Grid item md={8} xs>

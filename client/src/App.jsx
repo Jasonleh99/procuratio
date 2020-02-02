@@ -21,8 +21,13 @@ import PAnnouncements from "./components/parent/Announcements";
 
 /* Teacher imports */
 import TSummary from "./components/teacher/Summary";
-import TClassRoster from "./components/teacher/ClassRoster";
+import TClassRoster from "./components/teacher/Roster";
 import TAssignments from "./components/teacher/Assignments";
+// import TGrades from "./components/teacher/Grades";
+// import TAnnouncements from "./components/teacher/Announcements";
+// import TNotifications from "./components/teacher/Notifications";
+// import TResources from "./components/teacher/Resources";
+// import TDocuments from "./components/teacher/Documents";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -103,18 +108,43 @@ const App = () => {
           {/* Teacher paths */}
           <Route
             exact
-            path="/class-summary"
+            path="/:teacher_id/teacher/class-summary"
             render={props => <TSummary {...props} />}
           />
           <Route
             exact
-            path="/class-roster"
+            path="/:teacher_id/teacher/class-roster"
             render={props => <TClassRoster {...props} />}
           />
           <Route
             exact
-            path="/assignments"
+            path="/:teacher_id/teacher/assignments"
             render={props => <TAssignments {...props} />}
+          />
+          {/* <Route
+            exact
+            path="/:teacher_id/teacher/grades"
+            render={props => <TGrades {...props} />}
+          />
+          <Route
+            exact
+            path="/:teacher_id/teacher/announcements"
+            render={props => <TAnnouncements {...props} />}
+          />
+          <Route
+            exact
+            path="/:teacher_id/teacher/notifications"
+            render={props => <TNotifications {...props} />}
+          />
+          <Route
+            exact
+            path="/:teacher_id/teacher/resources"
+            render={props => <TResources {...props} />}
+          />
+          <Route
+            exact
+            path="/:teacher_id/teacher/documents"
+            render={props => <TDocuments {...props} />} */}
           />
         </Switch>
       </div>
