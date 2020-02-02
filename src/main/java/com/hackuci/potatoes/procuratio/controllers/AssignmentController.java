@@ -82,9 +82,15 @@ public class AssignmentController {
 		return assignment.map(response -> ResponseEntity.ok().body(response))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+	
+	@PostMapping("/new_assignment")
+	ResponseEntity<Assignment> createAssignment(@Valid @RequestBody Assignment assignment) {
+		assignmentRepository.save(assignment);
+		return ResponseEntity.ok().build();
+	}
 
 	@PostMapping("/new_assignment_submission")
-	ResponseEntity<AssignmentStudent> createAssignment(@Valid @RequestBody AssignmentStudent assignmentStudent)
+	ResponseEntity<AssignmentStudent> createSubmission(@Valid @RequestBody AssignmentStudent assignmentStudent)
 			throws URISyntaxException {
 		AssignmentStudent result = asRepository.save(assignmentStudent);
 

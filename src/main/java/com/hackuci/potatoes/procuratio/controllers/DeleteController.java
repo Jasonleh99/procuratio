@@ -103,4 +103,10 @@ public class DeleteController {
 		doRepo.deleteById(documentid);
 		return ResponseEntity.ok().build();
 	}
+	
+	@DeleteMapping("/assignment/{assignmentid}")
+	ResponseEntity<?> deleteAssignment(@PathVariable Long assignmentid) {
+		asRepo.deleteById(assignmentid);
+		return ResponseEntity.ok().build();
+	}
 }
