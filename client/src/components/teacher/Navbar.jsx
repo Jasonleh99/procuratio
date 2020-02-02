@@ -39,34 +39,73 @@ const Navbar = props => {
 
   const classes = useStyles();
 
-  const prefix = "/" + props.studentId + "/student";
+  const prefix = "/" + props.teacherId + "/teacher";
 
   const menu = (
     <MenuList className={classes.menuWrapper}>
       <MenuList>
         <Typography variant="h6" className={classes.menuHeader}>
-          Media
-        </Typography>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/announcements") }}>
-          Announcements
-        </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/contact") }}>
-          Contact Teacher
-        </MenuItem>
-      </MenuList>
-
-      <MenuList>
-        <Typography variant="h6" className={classes.menuHeader}>
           Class
         </Typography>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/assignments") }}>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/class-summary") }}
+        >
+          Class Summary
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/class-roster") }}
+        >
+          Class Roster
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/assignments") }}
+        >
           Assignments
         </MenuItem>
         <MenuItem component={Link} to={{ pathname: prefix.concat("/grades") }}>
           Grades
         </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/resources") }}>
+      </MenuList>
+
+      <MenuList>
+        <Typography variant="h6" className={classes.menuHeader}>
+          Media
+        </Typography>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/announcements") }}
+        >
+          Announcements
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/notifications") }}
+        >
+          Notifications
+        </MenuItem>
+        <MenuItem component={Link} to={{ pathname: prefix.concat("/contact") }}>
+          Messages
+        </MenuItem>
+      </MenuList>
+
+      <MenuList>
+        <Typography variant="h6" className={classes.menuHeader}>
+          Files
+        </Typography>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/resources") }}
+        >
           Resources
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to={{ pathname: prefix.concat("/documents") }}
+        >
+          Documents
         </MenuItem>
       </MenuList>
     </MenuList>

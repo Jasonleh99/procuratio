@@ -6,7 +6,7 @@ import FadeIn from "react-fade-in";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#AEC6CF";
+const CELL_COLOR = "#FF6961";
 
 const styles = {
   container: {
@@ -17,7 +17,7 @@ const styles = {
     marginTop: 100,
     width: "100%"
   },
-  announcementCell: {
+  assignmentCell: {
     marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
@@ -28,21 +28,24 @@ const styles = {
   }
 };
 
-class Announcements extends Component {
+class Assignments extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       studentId: this.props.match.params.student_id,
-      announcements: [
+      assignments: [
         {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
+          title: "Multiplication Practice",
+          dueDate: "12/25/2019",
+          studentScore: 5,
+          totalScore: 5
         },
         {
-          title: "sample title",
-          body: "how is it already 2"
+          title: "Division Practice",
+          dueDate: "12/26/2019",
+          studentScore: 4,
+          totalScore: 5
         }
       ],
       isLoading: true
@@ -55,7 +58,7 @@ class Announcements extends Component {
 
   render() {
     const { classes } = this.props;
-    const { announcements, studentId } = this.state;
+    const { assignments, studentId } = this.state;
 
     return (
       <>
@@ -72,7 +75,7 @@ class Announcements extends Component {
               <Grid item container>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
-                  <Typography variant="h2">Announcements</Typography>
+                  <Typography variant="h2">Assignments</Typography>
 
                   <Grid container>
                     <Grid
@@ -80,20 +83,26 @@ class Announcements extends Component {
                       xs
                       style={{ paddingBottom: "10px", marginRight: "40px" }}
                     >
-                      {announcements.map((announce, i) => (
+                      {assignments.map((assignment, i) => (
                         <Paper
-                          className={classes.announcementCell}
-                          key={"announcementCell_" + i}
+                          className={classes.assignmentCell}
+                          key={"assignmentCell_" + i}
                         >
-                          <Grid container direction="column">
-                            <Grid item xs>
-                              <Typography variant="h4">
-                                {announce.title}
+                          <Grid container>
+                            <Grid item md={8} xs>
+                              <Typography variant="h5">
+                                {assignment.title}
                               </Typography>
                             </Grid>
-                            <Grid item xs style={{ paddingTop: "15px" }}>
-                              <Typography variant="h6">
-                                {announce.body}
+                            <Grid item md={2} xs>
+                              <Typography variant="h5">
+                                {assignment.dueDate}
+                              </Typography>
+                            </Grid>
+                            <Grid item md={2} xs>
+                              <Typography variant="h5">
+                                Score: {assignment.studentScore} /{" "}
+                                {assignment.totalScore}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -102,8 +111,8 @@ class Announcements extends Component {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={1} />
               </Grid>
+              <Grid item xs={1} />
             </Grid>
           </Grid>
         </FadeIn>
@@ -112,4 +121,4 @@ class Announcements extends Component {
   }
 }
 
-export default withStyles(styles)(Announcements);
+export default withStyles(styles)(Assignments);

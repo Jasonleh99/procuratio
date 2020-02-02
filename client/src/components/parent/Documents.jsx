@@ -6,7 +6,7 @@ import FadeIn from "react-fade-in";
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 
-const CELL_COLOR = "#AEC6CF";
+const CELL_COLOR = "#ffb347";
 
 const styles = {
   container: {
@@ -17,7 +17,7 @@ const styles = {
     marginTop: 100,
     width: "100%"
   },
-  announcementCell: {
+  documentCell: {
     marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
@@ -28,21 +28,20 @@ const styles = {
   }
 };
 
-class Announcements extends Component {
+class Documents extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      studentId: this.props.match.params.student_id,
-      announcements: [
+      parentId: this.props.match.params.parent_id,
+      documents: [
         {
-          title:
-            "sample ansdflkjlakjlfkjasdlkfjlasdkjflksdjflksdjflkasdjflksdjfsdnouncement",
-          body: "hey hey hey"
+          title: "Document 1",
+          link: "https://google.com"
         },
         {
-          title: "sample title",
-          body: "how is it already 2"
+          title: "RESOURCE 2",
+          link: "https://facebook.com"
         }
       ],
       isLoading: true
@@ -55,12 +54,13 @@ class Announcements extends Component {
 
   render() {
     const { classes } = this.props;
-    const { announcements, studentId } = this.state;
+    const { documents, parentId } = this.state;
 
     return (
       <>
-        <Navbar studentId={studentId} />
+        <Navbar parentId={parentId} />
         <FadeIn className={classes.fadeIn}>
+          {" "}
           <Grid
             container
             direction="column"
@@ -72,7 +72,7 @@ class Announcements extends Component {
               <Grid item container>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
-                  <Typography variant="h2">Announcements</Typography>
+                  <Typography variant="h2">Important Documents</Typography>
 
                   <Grid container>
                     <Grid
@@ -80,23 +80,20 @@ class Announcements extends Component {
                       xs
                       style={{ paddingBottom: "10px", marginRight: "40px" }}
                     >
-                      {announcements.map((announce, i) => (
+                      {documents.map((document, i) => (
                         <Paper
-                          className={classes.announcementCell}
-                          key={"announcementCell_" + i}
+                          className={classes.documentCell}
+                          key={"documentCell_" + i}
                         >
-                          <Grid container direction="column">
-                            <Grid item xs>
-                              <Typography variant="h4">
-                                {announce.title}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs style={{ paddingTop: "15px" }}>
-                              <Typography variant="h6">
-                                {announce.body}
-                              </Typography>
-                            </Grid>
-                          </Grid>
+                          <a
+                            href={document.link}
+                            style={{ textDecoration: "none", color: "black" }}
+                            target="_"
+                          >
+                            <Typography variant="h4">
+                              {document.title}
+                            </Typography>
+                          </a>
                         </Paper>
                       ))}
                     </Grid>
@@ -112,4 +109,4 @@ class Announcements extends Component {
   }
 }
 
-export default withStyles(styles)(Announcements);
+export default withStyles(styles)(Documents);

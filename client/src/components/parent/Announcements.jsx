@@ -33,7 +33,7 @@ class Announcements extends Component {
     super(props);
 
     this.state = {
-      studentId: this.props.match.params.student_id,
+      parentId: this.props.match.params.parent_id,
       announcements: [
         {
           title:
@@ -55,11 +55,11 @@ class Announcements extends Component {
 
   render() {
     const { classes } = this.props;
-    const { announcements, studentId } = this.state;
+    const { announcements, parentId } = this.state;
 
     return (
       <>
-        <Navbar studentId={studentId} />
+        <Navbar parentId={parentId} />
         <FadeIn className={classes.fadeIn}>
           <Grid
             container
