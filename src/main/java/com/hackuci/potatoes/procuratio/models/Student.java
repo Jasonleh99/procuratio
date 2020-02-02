@@ -34,9 +34,6 @@ public class Student implements User{
 	@Id
 	private String pairingid;
 	
-	@OneToMany
-	private Set<Grade> grades;
-	
 	@OneToOne
 	private Parent associated_parent;
 	

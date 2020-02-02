@@ -22,12 +22,9 @@ public class Grade {
 	
 	private String subject;
 	
-	private int subject_average_score;
+	private int score;
 	
 	private int total_score;
-	
-	@OneToOne
-	private Student student;
 	
 	@ManyToOne
 	private Teacher teacher;

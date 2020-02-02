@@ -19,4 +19,12 @@ public interface AssignmentStudentRepository extends JpaRepository<AssignmentStu
 	Optional<AssignmentStudent> findByStudentAndAssignment(
 			@Param("student") Student student,
 			@Param("assignment") Assignment assignment);
+	
+	@Query("SELECT sub FROM assignmentStudent WHERE sub.student=(:student) AND sub.assignment.subject=(:subject)")
+	List<AssignmentStudent> findByStudentAndSubject(
+			@Param("student") Student student,
+			@Param("subject") String subject);
+	
+	@Query("SELECT sub FROM assignmentStudent WHERE sub.assignment.subject=(:subject)")
+	List<AssignmentStudent> findBySubject(@Param("subject") String subject);
 }

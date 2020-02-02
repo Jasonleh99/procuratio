@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hackuci.potatoes.procuratio.models.Assignment;
 import com.hackuci.potatoes.procuratio.models.AssignmentStudent;
+import com.hackuci.potatoes.procuratio.models.Grade;
 import com.hackuci.potatoes.procuratio.models.Student;
+import com.hackuci.potatoes.procuratio.models.Teacher;
 import com.hackuci.potatoes.procuratio.repositories.AssignmentRepository;
 import com.hackuci.potatoes.procuratio.repositories.AssignmentStudentRepository;
+import com.hackuci.potatoes.procuratio.repositories.GradeRepository;
 import com.hackuci.potatoes.procuratio.repositories.StudentRepository;
 
 @RestController
@@ -31,14 +34,17 @@ public class AssignmentController {
 	private AssignmentRepository assignmentRepository;
 	private AssignmentStudentRepository asRepository;
 	private StudentRepository studentRepository;
+	private GradeRepository gradeRepository;
 	
 	public AssignmentController (AssignmentRepository assignmentRepository,
 			AssignmentStudentRepository asRepository,
-			StudentRepository studentRepository) {
+			StudentRepository studentRepository,
+			GradeRepository gradeRepository) {
 		super();
 		this.assignmentRepository = assignmentRepository;
 		this.asRepository = asRepository;
 		this.studentRepository = studentRepository;
+		this.gradeRepository = gradeRepository;
 	}
 	
 	@GetMapping("/student/{studentId}")
@@ -72,12 +78,37 @@ public class AssignmentController {
 	ResponseEntity<AssignmentStudent> createAssignment(
 			@Valid @RequestBody AssignmentStudent assignmentStudent) throws URISyntaxException{
 		AssignmentStudent result = asRepository.save(assignmentStudent);
-		return ResponseEntity.created(new URI("/api/assignment/" + result)).body(result);
+		List<AssignmentStudent> subjectAssignments = asRepository.findByStudentAndSubject(
+					assignmentStudent.getStudent(), 
+					assignmentStudent.getAssignment().getSubject());
+		
+		recalculateGrade(assignmentStudent.getAssignment().getSubject(),
+				assignmentStudent.getAssignment().getTeacher());
+		
+		return ResponseEntity.created(
+				new URI("/api/assignment/" + result.getStudent().getId() + "/" 
+						+ result.getAssignment().getId())).body(result);
 	}
 	
 	@PutMapping("/update_assignment")
 	ResponseEntity<Assignment> updateAssignment(@Valid @RequestBody Assignment assignment){
 		Assignment result = assignmentRepository.save(assignment);
 		return ResponseEntity.ok().body(result);
+	}
+	
+	void recalculateGrade(String subject, Teacher teacher) {
+		List<AssignmentStudent> subjectAssignments = asRepository.findBySubject(subject);
+		int scoreSum = 0;
+		int totalSum = 0;
+		for (AssignmentStudent submission: subjectAssignments) {
+			scoreSum += submission.getScore();
+			totalSum += submission.getTotal_score();
+		}
+		
+		Grade grade = gradeRepository.findBySubjectAndTeacher(subject, teacher);
+		grade.setTotal_score(totalSum);
+		grade.setScore(scoreSum);
+		
+		gradeRepository.save(grade);
 	}
 }
