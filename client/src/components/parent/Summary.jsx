@@ -82,16 +82,84 @@ class Summary extends Component {
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    // Announcements
+    const response = await fetch("/api/announcements/200");
+    const body = await response.json();
+
+    let announcements = [];
+    body.forEach(el => {
+      announcements.unshift({ title: el.title, body: el.body });
+    });
+
+    this.setState({ announcements: announcements });
+
+    // Grades
+    const response2 = await fetch(`/api/assignments/student/100`);
+    const body2 = await response2.json();
+
+    let subjectGrades = {};
+
+    let grades = [];
+    body2.forEach(el => {
+      const index = Object.keys(subjectGrades).indexOf(el.assignment.subject);
+      if (index === -1) {
+        console.log(el);
+        subjectGrades[el.assignment.subject] = {
+          subject: el.assignment.subject,
+          totalScore: el.total_score,
+          studentScore: el.score
+        };
+      } else {
+        subjectGrades[el.assignment.subject] = {
+          subject: el.assignment.subject,
+          totalScore:
+            subjectGrades[el.assignment.subject].totalScore + el.total_score,
+          studentScore:
+            subjectGrades[el.assignment.subject].studentScore + el.score
+        };
+        console.log(subjectGrades);
+      }
+    });
+
+    Object.keys(subjectGrades).forEach(el => {
+      grades.unshift(subjectGrades[el]);
+    });
+
+    this.setState({ grades: grades });
+
+    // Assignments
+    const response3 = await fetch(`/api/assignments/student/100`);
+    const body3 = await response3.json();
+
+    let assignments = [];
+    body3.forEach(el => {
+      assignments.unshift({
+        title: el.assignment.title,
+        subject: el.assignment.subject,
+        submission_link: el.submission_link,
+        score: el.score,
+        totalScore: el.total_score,
+        dueDate: el.assignment.date
+      });
+    });
+
+    this.setState({ assignments: assignments });
+  }  
+
+  convertToProperCase(sub) {
+    let subject = sub.toLowerCase();
+    subject = subject.substr(0, 1).toUpperCase() + subject.substr(1);
+
+    return subject;
+  }
 
   convertToData() {
     const { grades } = this.state;
     let result = [["Subject", "Grade (%)"]];
 
     grades.forEach(grade => {
-      const subject = grade.subject;
+      const subject = this.convertToProperCase(grade.subject);
       const percent = parseFloat(
         (grade.studentScore / grade.totalScore) * 100
       ).toFixed(2);
@@ -177,7 +245,7 @@ class Summary extends Component {
                             </Grid>
                             <Grid item md={2} xs>
                               <Typography variant="h5">
-                                Score: {assignment.studentScore} /{" "}
+                                Score: {assignment.score} /{" "}
                                 {assignment.totalScore}
                               </Typography>
                             </Grid>

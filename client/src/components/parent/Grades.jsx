@@ -43,32 +43,53 @@ class Grades extends Component {
       student: {
         name: "Beep Boop"
       },
-      grades: [
-        {
-          subject: "Math",
-          studentScore: 10,
-          totalScore: 15
-        },
-        {
-          subject: "English",
-          studentScore: 5,
-          totalScore: 10
-        }
-      ],
+      grades: [],
       isLoading: true
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/assignments/student/100`);
+    const body = await response.json();
+
+    let subjectGrades = {};
+
+    let grades = [];
+    body.forEach(el => {
+      const index = Object.keys(subjectGrades).indexOf(el.assignment.subject);
+      if (index === -1) {
+        console.log(el);
+        subjectGrades[el.assignment.subject] = {
+          subject: el.assignment.subject,
+          totalScore: el.total_score,
+          studentScore: el.score
+        };
+      } else {
+        subjectGrades[el.assignment.subject] = {
+          subject: el.assignment.subject,
+          totalScore:
+            subjectGrades[el.assignment.subject].totalScore + el.total_score,
+          studentScore:
+            subjectGrades[el.assignment.subject].studentScore + el.score
+        };
+        console.log(subjectGrades);
+      }
+    });
+
+    Object.keys(subjectGrades).forEach(el => {
+      grades.unshift(subjectGrades[el]);
+      // console.log(el);
+    });
+
+    this.setState({ grades: grades, isLoading: false });
+  }
 
   convertToData() {
     const { grades } = this.state;
     let result = [["Subject", "Grade (%)"]];
 
     grades.forEach(grade => {
-      const subject = grade.subject;
+      const subject = this.convertToProperCase(grade.subject);
       const percent = parseFloat(
         (grade.studentScore / grade.totalScore) * 100
       ).toFixed(2);
@@ -77,6 +98,13 @@ class Grades extends Component {
     });
 
     return result;
+  }
+
+  convertToProperCase(sub) {
+    let subject = sub.toLowerCase();
+    subject = subject.substr(0, 1).toUpperCase() + subject.substr(1);
+
+    return subject;
   }
 
   render() {
@@ -117,7 +145,7 @@ class Grades extends Component {
                           <Grid container>
                             <Grid item md={6} xs>
                               <Typography variant="h5">
-                                {grade.subject}
+                                {this.convertToProperCase(grade.subject)}
                               </Typography>
                             </Grid>
                             <Grid item md={4} xs>

@@ -33,7 +33,7 @@ public class Assignment {
 	
 	private int totalScore;
 	
-	private Date date;
+	private String date;
 	
 	@ManyToOne
 	private Teacher teacher;

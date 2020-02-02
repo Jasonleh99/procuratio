@@ -84,6 +84,7 @@ class Documents extends Component {
     }
 
     const teacherId = this.state.teacherId;
+    const id = Math.floor(Math.random() * 9999999);
 
     await fetch(`/api/documents/new_document`, {
       method: "POST",
@@ -92,7 +93,7 @@ class Documents extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: Math.floor(Math.random() * 9999999),
+        id: id,
         title: name,
         pdf_link: description,
         teacher: {
@@ -101,7 +102,7 @@ class Documents extends Component {
       })
     }).then(() => {
       this.setState({
-        documents: [...this.state.documents, { title: name, pdf_link: description }]
+        documents: [...this.state.documents, { title: name, pdf_link: description, id: id }]
       });
     });
 

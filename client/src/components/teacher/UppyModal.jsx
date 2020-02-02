@@ -30,13 +30,11 @@ class AvatarPicker extends Component {
     this.uppy.use(Tus, { endpoint: "https://master.tus.io/files/" });
 
     this.uppy.on("complete", result => {
-      console.log("Completed upload, result:", result);
-      const id = result.successful[0].id;
       const url = result.successful[0].uploadURL;
       if (url !== undefined) {
         alert("Upload successful");
       }
-      handleUploadCompleted(id, url);
+      handleUploadCompleted(url);
     });
 
     this.uppy.run();

@@ -80,6 +80,7 @@ class Notifications extends Component {
     const description = document.querySelector("#notification-body").value;
 
     const teacherId = this.state.teacherId;
+    const id = Math.floor(Math.random() * 9999999);
 
     await fetch(`/api/notifications/new_notification`, {
       method: "POST",
@@ -88,7 +89,7 @@ class Notifications extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: Math.floor(Math.random() * 9999999),
+        id: id,
         title: name,
         body: description,
         teacher: {
@@ -99,7 +100,7 @@ class Notifications extends Component {
       this.setState({
         notifications: [
           ...this.state.notifications,
-          { title: name, body: description }
+          { title: name, body: description, id: id }
         ]
       });
     });

@@ -63,7 +63,7 @@ class Assignments extends Component {
         subject: el.assignment.subject,
         submission_link: el.submission_link,
         score: el.score,
-        totalScore: el.totalScore,
+        totalScore: el.total_score,
         dueDate: el.assignment.date
       });
     });
@@ -99,24 +99,33 @@ class Assignments extends Component {
                           className={classes.assignmentCell}
                           key={"assignmentCell_" + i}
                         >
-                          <Grid container>
-                            <Grid item md={8} xs>
-                              <Typography variant="h5">
-                                {assignment.title}
-                              </Typography>
+                          <a
+                            href={assignment.submission_link}
+                            style={{
+                              textDecoration: "none",
+                              color: "black"
+                            }}
+                            target="_"
+                          >
+                            <Grid container>
+                              <Grid item md={8} xs>
+                                <Typography variant="h5">
+                                  {assignment.title}
+                                </Typography>
+                              </Grid>
+                              <Grid item md={2} xs>
+                                <Typography variant="h5">
+                                  {assignment.dueDate}
+                                </Typography>
+                              </Grid>
+                              <Grid item md={2} xs>
+                                <Typography variant="h5">
+                                  Score: {assignment.score} /{" "}
+                                  {assignment.totalScore}
+                                </Typography>
+                              </Grid>
                             </Grid>
-                            <Grid item md={2} xs>
-                              <Typography variant="h5">
-                                {assignment.dueDate}
-                              </Typography>
-                            </Grid>
-                            <Grid item md={2} xs>
-                              <Typography variant="h5">
-                                Score: {assignment.studentScore} /{" "}
-                                {assignment.totalScore}
-                              </Typography>
-                            </Grid>
-                          </Grid>
+                          </a>
                         </Paper>
                       ))}
                     </Grid>

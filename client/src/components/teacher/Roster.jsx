@@ -43,7 +43,6 @@ class Roster extends Component {
         { title: "Student Name", field: "name" },
         { title: "Username", field: "username" },
         { title: "Password", field: "password" },
-        { title: "Pairing ID", field: "pairingId" },
         { title: "Parent", field: "parent" }
       ],
       parentColumns: [
@@ -52,76 +51,43 @@ class Roster extends Component {
         { title: "Password", field: "password" },
         { title: "Student", field: "student" }
       ],
-      students: [
-        {
-          name: "Charles Test",
-          username: "cte123",
-          password: "temp_pass",
-          pairingId: "qwerty",
-          parent: "Billy Bob"
-        },
-        {
-          name: "Charles sdfsd",
-          username: "cdste123",
-          password: "temp_psdsdass",
-          pairingId: "qddwerty",
-          parent: "Bilddddly Bob"
-        },
-        {
-          name: "Charles sdfsd",
-          username: "cdste123",
-          password: "temp_psdsdass",
-          pairingId: "qddwerty",
-          parent: "Bilddddly Bob"
-        },
-        {
-          name: "Charles sdfsd",
-          username: "cdste123",
-          password: "temp_psdsdass",
-          pairingId: "qddwerty",
-          parent: "Bilddddly Bob"
-        }
-      ],
-      parents: [
-        {
-          name: "Charles Parent",
-          username: "sdfhja3",
-          password: "asdfasdklhj23",
-          student: "Charles sdfsd"
-        },
-        {
-          name: "Charles Parent",
-          username: "sdfhja3",
-          password: "asdfasdklhj23",
-          student: "Charles sdfsd"
-        },
-        {
-          name: "Charles Parent",
-          username: "sdfhja3",
-          password: "asdfasdklhj23",
-          student: "Charles sdfsd"
-        },
-        {
-          name: "Charles Parent",
-          username: "sdfhja3",
-          password: "asdfasdklhj23",
-          student: "Charles sdfsd"
-        },
-        {
-          name: "Charles Parent",
-          username: "sdfhja3",
-          password: "asdfasdklhj23",
-          student: "Charles sdfsd"
-        }
-      ],
+      students: [],
+      parents: [],
       isLoading: true,
       open: false
     };
   }
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/teacher/${this.state.teacherId}`);
+    const body = await response.json();
+
+    console.log(body);
+
+    // let students = [];
+    // body.forEach(el => {
+    //   students.unshift({
+    //     name: el.user.name,
+    //     username: el.user.login,
+    //     password: el.user.password,
+    //     parent: el.parent.user.name
+    //   });
+    // });
+
+    // let parents = [];
+    // body.forEach(el => {
+    //   parents.unshift({
+    //     name: el.user.name,
+    //     username: el.user.login,
+    //     password: el.user.password,
+    //     student: el.student.user.name
+    //   });
+    // });
+
+    // this.setState({ students: students, parents: parents, isLoading: false });
+  }
+
+  handleGenerateUsers = (students, parents) => {};
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -131,9 +97,114 @@ class Roster extends Component {
     this.setState({ open: false });
   };
 
-  handleSubmit = () => {
+  async handleSubmit() {
+    const students = document.querySelector("#student-names").split("\n");
+    const parents = document.querySelector("#parent-names").split("\n");
+
+    if (students.length !== parents.length) {
+      alert("Number of students and parents don't match!");
+      return;
+    }
+
+    let studentArr = [];
+    let parentArr = [];
+
+    for (let i = 0; i < students.length; i++) {
+      const s_username = students[i].split(" ").join("");
+      const s_password = Math.random()
+        .toString(36)
+        .slice(-8);
+
+      const s_id = Math.random() * 99999999;
+
+      const p_username = parents[i].split(" ").join("");
+      const p_password = Math.random()
+        .toString(36)
+        .slice(-8);
+      const p_id = Math.random() * 99999999;
+
+      const teacher_id = this.state.teacherId;
+
+      studentArr.unshift({
+        name: students[i],
+        username: s_username,
+        password: s_password,
+        parent: parents[i]
+      });
+      
+      parentArr.unshift({
+        name: parents[i],
+        username: p_username,
+        password: p_password,
+        parent: students[i]
+      });
+
+      await fetch(`/api/new_user`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: students[i],
+          login: s_username,
+          password: s_password,
+          id: s_id
+        })
+      }).then(async () => {
+        await fetch(`/api/new_student`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            user: {
+              id: s_id
+            },
+            parent: {
+              id: p_id
+            },
+            teacher: {
+              id: teacher_id
+            }
+          })
+        });
+      });
+
+      await fetch(`/api/new_user`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: parents[i],
+          login: p_username,
+          password: p_password,
+          id: p_id
+        })
+      }).then(async () => {
+        await fetch(`/api/new_parent`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            user: {
+              id: p_id
+            },
+            student: {
+              id: s_id
+            }
+          })
+        });
+      });
+    }
+
     this.handleClose();
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -250,7 +321,7 @@ class Roster extends Component {
               Cancel
             </Button>
             <Button
-              onClick={this.handleSubmit}
+              onClick={() => this.handleSubmit()}
               variant="contained"
               color="primary"
             >

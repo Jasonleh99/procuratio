@@ -30,30 +30,26 @@ const styles = {
 class Grades extends Component {
   state = {
     teacherId: this.props.match.params.teacher_id,
-    overallGrades: [
-      {
-        subject: "Math",
-        studentScore: 10,
-        totalScore: 15
-      },
-      {
-        subject: "English",
-        studentScore: 5,
-        totalScore: 10
-      }
-    ],
-    performanceGrades: [
-      {
-        subject: "Math",
-        month: "January"
-      }
-    ],
+    overallGrades: [],
     isLoading: true
   };
 
-  /* async componentDidMount() {
-    add in the api call here
-  } */
+  async componentDidMount() {
+    const response = await fetch(`/api/teacher/grades/${this.state.teacherId}`);
+    const body = await response.json();
+
+    let grades = [];
+    body.forEach(el => {
+      grades.unshift({
+        subject: el.subject,
+        id: el.id,
+        totalScore: el.total_score,
+        studentScore: el.score
+      });
+    });
+    
+    this.setState({ overallGrades: grades, isLoading: false });
+  }
 
   convertToData() {
     const { overallGrades } = this.state;
@@ -103,18 +99,15 @@ class Grades extends Component {
                       data={[
                         [
                           "Subject",
-                          "Average (%)",
-                          "Median (%)",
-                          "Standard Deviation (%)"
+                          "Average (%)"
                         ],
-                        ["Math", 80, 90, 10],
-                        ["English", 76, 60, 5],
-                        ["Science", 56, 70, 7.6],
-                        ["History", 90, 75, 19]
+                        ["Math", 80],
+                        ["English", 76],
+                        ["Science", 56],
+                        ["History", 90]
                       ]}
                     />
                   </Grid>
-                  {/* <Grid item xs lg={1} /> */}
                   <Grid item xs>
                     <Typography variant="h4" style={{ marginBottom: "10px" }}>
                       Class Performance

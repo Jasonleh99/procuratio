@@ -64,6 +64,8 @@ class Assignments extends Component {
       currentAssignment: undefined,
       selectedStudent: undefined
     };
+
+    this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
   }
 
   async componentDidMount() {
@@ -102,6 +104,7 @@ class Assignments extends Component {
     const subject = document.querySelector("#subject").value;
 
     const teacherId = this.state.teacherId;
+    const id = Math.floor(Math.random() * 9999999);
 
     await fetch(`/api/assignments/new_assignment`, {
       method: "POST",
@@ -110,11 +113,12 @@ class Assignments extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: Math.floor(Math.random() * 9999999),
+        id: id,
         title: name,
         date: dueDate,
         totalScore: totalScore,
-        subject: subject,
+        subject: subject.toUpperCase(),
+        summary: "",
         teacher: {
           id: teacherId
         }
@@ -125,8 +129,10 @@ class Assignments extends Component {
           ...this.state.assignments,
           {
             title: name,
-            dueDate: dueDate,
-            totalScore: totalScore
+            subject: subject,
+            id: id,
+            totalScore: totalScore,
+            dueDate: dueDate
           }
         ]
       });
@@ -147,12 +153,33 @@ class Assignments extends Component {
     this.setState({ openFile: false, currentAssignment: undefined });
   };
 
-  handleUploadCompleted = (id, url) => {
-    console.log("handleUploadCompleted(), id:", id, " - url:", url);
-  };
+  async handleUploadCompleted(url) {
+    await fetch(`/api/assignments/new_assignment_submission`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: Math.floor(Math.random() * 9999999),
+        assignment: {
+          id: this.state.assignments[this.state.currentAssignment].id
+        },
+        student: {
+          id: 100
+        },
+        total_score: this.state.assignments[this.state.currentAssignment]
+          .totalScore,
+        teacher: {
+          id: this.state.teacherId
+        },
+        submission_link: url
+      })
+    });
+  }
 
   async handleDeleteAssignment(i) {
-    await fetch(`/api/delete/assignment/${this.state.assignment[i].id}`, {
+    await fetch(`/api/delete/assignment/${this.state.assignments[i].id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -217,7 +244,7 @@ class Assignments extends Component {
                         <Paper
                           className={classes.assignmentCell}
                           key={"assignmentCell_" + i}
-                          onClick={this.handleAssignmentOpen}
+                          onClick={() => this.handleAssignmentOpen(i)}
                           style={{ cursor: "pointer" }}
                         >
                           <Grid container>
@@ -337,6 +364,7 @@ class Assignments extends Component {
               <Grid item xs>
                 <UppyModal handleUploadCompleted={this.handleUploadCompleted} />
               </Grid>
+              <Grid item xs></Grid>
               <Grid item xs>
                 <FormControl required style={{ width: "100%" }}>
                   <InputLabel id="student-selector">Student</InputLabel>

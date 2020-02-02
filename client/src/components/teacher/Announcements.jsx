@@ -86,6 +86,7 @@ class Announcements extends Component {
     }
 
     const teacherId = this.state.teacherId;
+    const id = Math.floor(Math.random() * 9999999);
 
     await fetch(`/api/announcements/new_announcement`, {
       method: "POST",
@@ -94,7 +95,7 @@ class Announcements extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: Math.floor(Math.random() * 9999999),
+        id: id,
         title: name,
         body: description,
         teacher: {
@@ -105,7 +106,7 @@ class Announcements extends Component {
       this.setState({
         announcements: [
           ...this.state.announcements,
-          { title: name, body: description }
+          { title: name, body: description, id: id }
         ]
       });
     });
@@ -123,7 +124,6 @@ class Announcements extends Component {
     }).then(() => {
       let array = [...this.state.announcements];
       array.splice(i, 1);
-
       this.setState({ announcements: array });
     });
   }

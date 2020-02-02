@@ -77,7 +77,9 @@ class Resources extends Component {
   async handleSubmit() {
     const name = document.querySelector("#resource-name").value;
     const description = document.querySelector("#resource-description").value;
+    
     const teacherId = this.state.teacherId;
+    const id = Math.floor(Math.random() * 9999999);
 
     await fetch(`/api/resources/new_resource`, {
       method: "POST",
@@ -86,7 +88,7 @@ class Resources extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        id: Math.floor(Math.random() * 9999999),
+        id: id,
         title: name,
         body: description,
         teacher: {
@@ -95,7 +97,7 @@ class Resources extends Component {
       })
     }).then(() => {
       this.setState({
-        resources: [...this.state.resources, { title: name, body: description }]
+        resources: [...this.state.resources, { title: name, body: description, id: id }]
       });
     });
 
