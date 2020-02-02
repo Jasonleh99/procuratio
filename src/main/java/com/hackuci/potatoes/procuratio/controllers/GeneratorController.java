@@ -56,7 +56,7 @@ public class GeneratorController {
 			student.setUser(user);
 			student.getUser().setName(name);
 			student.getUser().setLogin(name + "123");
-			student.setPairingid(student.getUser().getLogin().hashCode() + "");
+			student.setPairid(student.getUser().getLogin().hashCode() + "");
 			student.getUser().setPassword("qwerty");
 		}
 		

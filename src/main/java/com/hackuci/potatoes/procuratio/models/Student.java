@@ -32,10 +32,10 @@ public class Student{
 	@OneToOne
 	private User user;
 	
-	private String pairingid;
+	private String pairid;
 	
 	@OneToOne
-	private Parent associated_parent;
+	private Parent parent;
 	
 	@ManyToOne
 	private Teacher teacher;

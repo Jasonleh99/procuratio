@@ -2,6 +2,7 @@ package com.hackuci.potatoes.procuratio.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,92 +35,93 @@ public class AssignmentController {
 	private AssignmentStudentRepository asRepository;
 	private StudentRepository studentRepository;
 	private GradeRepository gradeRepository;
-	
-	public AssignmentController (AssignmentRepository assignmentRepository,
-			AssignmentStudentRepository asRepository,
-			StudentRepository studentRepository,
-			GradeRepository gradeRepository) {
+
+	public AssignmentController(AssignmentRepository assignmentRepository, AssignmentStudentRepository asRepository,
+			StudentRepository studentRepository, GradeRepository gradeRepository) {
 		super();
 		this.assignmentRepository = assignmentRepository;
 		this.asRepository = asRepository;
 		this.studentRepository = studentRepository;
 		this.gradeRepository = gradeRepository;
 	}
-	
+
 	@GetMapping("/student/{studentId}")
-	ResponseEntity<?> getAssignment(@PathVariable Long studentId){
+	ResponseEntity<?> getAssignment(@PathVariable Long studentId) {
 		Optional<Student> student = studentRepository.findById(studentId);
 		return student.map(response -> ResponseEntity.ok().body(asRepository.findByStudent(response)))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
-	
+
 	@GetMapping("/assignments/{studentid}/{assignmentid}")
 	ResponseEntity<?> getSubmission(@PathVariable Long studentid, @PathVariable Long assignmentid) {
 		Optional<Student> student = studentRepository.findById(studentid);
 		Optional<Assignment> assignment = assignmentRepository.findById(assignmentid);
 		if (student.isPresent() && assignment.isPresent()) {
-			Optional<AssignmentStudent> submission = asRepository.findByStudentAndAssignment(student.get(), assignment.get());
-			return submission.map(response -> 
-					ResponseEntity.ok().body(response))
+			Optional<AssignmentStudent> submission = asRepository.findByAssignmentAndStudent(assignment.get(),
+					student.get());
+			return submission.map(response -> ResponseEntity.ok().body(response))
 					.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@GetMapping("/{assignmentId}")
 	ResponseEntity<?> getStudentAssignment(@PathVariable Long assignmentId) {
-		Optional<Assignment> assignment= assignmentRepository.findById(assignmentId);
+		Optional<Assignment> assignment = assignmentRepository.findById(assignmentId);
 		return assignment.map(response -> ResponseEntity.ok().body(response))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
-	
+
 	@PostMapping("/new_assignment_submission")
-	ResponseEntity<AssignmentStudent> createAssignment(
-			@Valid @RequestBody AssignmentStudent assignmentStudent) throws URISyntaxException{
+	ResponseEntity<AssignmentStudent> createAssignment(@Valid @RequestBody AssignmentStudent assignmentStudent)
+			throws URISyntaxException {
 		AssignmentStudent result = asRepository.save(assignmentStudent);
-		List<AssignmentStudent> subjectAssignments = asRepository.findByStudentAndSubject(
-					assignmentStudent.getStudent(), 
-					assignmentStudent.getAssignment().getSubject());
-		
+
 		recalculateGrade(assignmentStudent.getAssignment().getSubject(),
 				assignmentStudent.getAssignment().getTeacher());
-		
-		return ResponseEntity.created(
-				new URI("/api/assignment/" + result.getStudent().getId() + "/" 
-						+ result.getAssignment().getId())).body(result);
+
+		return ResponseEntity
+				.created(new URI(
+						"/api/assignment/" + result.getStudent().getId() + "/" + result.getAssignment().getId()))
+				.body(result);
 	}
-	
+
 	@PutMapping("/update_assignment")
-	ResponseEntity<Assignment> updateAssignment(@Valid @RequestBody Assignment assignment){
+	ResponseEntity<Assignment> updateAssignment(@Valid @RequestBody Assignment assignment) {
 		Assignment result = assignmentRepository.save(assignment);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	void recalculateGrade(String subject, Teacher teacher) {
-		List<AssignmentStudent> subjectAssignments = asRepository.findBySubject(subject);
+		List<Assignment> subjectAssignments = assignmentRepository.findBySubject(subject);
+		List<AssignmentStudent> subjectSubmissions = new ArrayList<>();
+		for (Assignment ass : subjectAssignments) {
+			List<AssignmentStudent> temp = asRepository.findByAssignment(ass);
+			subjectSubmissions.addAll(temp);
+		}
+
 		int scoreSum = 0;
 		int totalSum = 0;
-		for (AssignmentStudent submission: subjectAssignments) {
+		for (AssignmentStudent submission : subjectSubmissions) {
 			if (submission.getAssignment().getTeacher().equals(teacher)) {
 				scoreSum += submission.getScore();
 				totalSum += submission.getTotal_score();
 			}
 		}
-		
-		Grade grade = gradeRepository.findBySubjectAndTeacher(subject, teacher);
-		grade.setTotal_score(totalSum);
-		grade.setScore(scoreSum);
-		
-		gradeRepository.save(grade);
+
+		Optional<Grade> grade = gradeRepository.findBySubjectAndTeacher(subject, teacher);
+		grade.get().setTotal_score(totalSum);
+		grade.get().setScore(scoreSum);
+
+		gradeRepository.save(grade.get());
 	}
 
 	@PutMapping("/update_submission")
-	ResponseEntity<AssignmentStudent> updateAssignmentStudent(@Valid @RequestBody AssignmentStudent assignmentStudent){
+	ResponseEntity<AssignmentStudent> updateAssignmentStudent(@Valid @RequestBody AssignmentStudent assignmentStudent) {
 		AssignmentStudent result = asRepository.save(assignmentStudent);
-		
-		recalculateGrade(result.getAssignment().getSubject(),
-				result.getAssignment().getTeacher());
-		
+
+		recalculateGrade(result.getAssignment().getSubject(), result.getAssignment().getTeacher());
+
 		return ResponseEntity.ok().body(result);
 	}
 }

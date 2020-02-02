@@ -31,7 +31,7 @@ public class Teacher{
 	@OneToOne
 	private User user;
 
-	private String classroom_name;
+	private String classroomName;
 	
 	@OneToMany
 	private Set<Student> class_roster;

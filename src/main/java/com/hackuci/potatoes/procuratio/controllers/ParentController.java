@@ -29,11 +29,11 @@ public class ParentController {
 
 	@PutMapping("/{parentid}/{pairid}")
 	ResponseEntity<?> pairParent(@PathVariable Long parentid, @PathVariable String pairid) {
-		Optional<Student> student = sRepo.findByPairId(pairid);
+		Optional<Student> student = sRepo.findByPairid(pairid);
 		Optional<Parent> parent = pRepo.findById(parentid);
 		if (parent.isPresent() && student.isPresent()) {
 			parent.get().setStudent(student.get());
-			student.get().setAssociated_parent(parent.get());
+			student.get().setParent(parent.get());
 			
 			sRepo.save(student.get());
 			Parent result = pRepo.save(parent.get());

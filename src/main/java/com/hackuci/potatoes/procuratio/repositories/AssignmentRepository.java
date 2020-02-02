@@ -13,5 +13,5 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 	List<Assignment> findByTitle(String title);
 	List<Assignment> findByDate(Date date);
 	List<Assignment> findByTeacher(Teacher teacher);
-
+	List<Assignment> findBySubject(String subject);
 }
