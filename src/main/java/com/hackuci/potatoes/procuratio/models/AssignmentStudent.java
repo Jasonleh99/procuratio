@@ -11,7 +11,7 @@ import lombok.Data;
 @Entity
 @AllArgsConstructor
 @Data
-@Table(name="assignmentStudent")
+@Table(name="AssignmentStudent")
 public class AssignmentStudent {
 	@Id
 	private long id;

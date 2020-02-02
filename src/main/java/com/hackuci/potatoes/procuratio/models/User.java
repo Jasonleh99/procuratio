@@ -1,8 +1,32 @@
 package com.hackuci.potatoes.procuratio.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.hackuci.potatoes.procuratio.UserType;
 
-public interface User {
-	public Long getId();
-	public UserType getUserType();
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+@Entity
+@Data
+@NoArgsConstructor
+@Table(name="user")
+public class User {
+	
+	@Id
+	@NonNull
+	@GeneratedValue
+	private Long id;
+	
+	private String name;
+	
+	private String login;
+	
+	private String password;
+	
+	private UserType userType;
 }

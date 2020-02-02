@@ -3,6 +3,7 @@ package com.hackuci.potatoes.procuratio.models;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -21,19 +22,16 @@ import lombok.NonNull;
 @AllArgsConstructor
 @Data
 @Table(name="Student")
-public class Student implements User{
+public class Student{
 
 	@Id
 	@NonNull
+	@GeneratedValue
 	private Long id;
 	
-	private String name;
+	@OneToOne
+	private User user;
 	
-	private String login;
-	
-	private String password;
-	
-	@Id
 	private String pairingid;
 	
 	@OneToOne
@@ -41,10 +39,4 @@ public class Student implements User{
 	
 	@ManyToOne
 	private Teacher teacher;
-
-	@Override
-	public UserType getUserType() {
-		// TODO Auto-generated method stub
-		return UserType.STUDENT;
-	}
 }

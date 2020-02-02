@@ -2,6 +2,7 @@ package com.hackuci.potatoes.procuratio.models;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,26 +20,19 @@ import lombok.NonNull;
 @AllArgsConstructor
 @Data
 @Table(name="parent")
-public class Parent implements User{
+public class Parent {
 
 	@Id
 	@NonNull
+	@GeneratedValue
 	private Long id;
 	
-	private String name;
-	
-	private String login;
-	
-	private String password;
+	@OneToOne
+	private User user;
 	
 	@OneToOne
 	private Student student;
 	
 	@OneToMany
 	private Set<Message> messages;
-
-	@Override
-	public UserType getUserType() {
-		return UserType.PARENT;
-	}
 }
