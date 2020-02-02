@@ -98,8 +98,8 @@ class Roster extends Component {
   };
 
   async handleSubmit() {
-    const students = document.querySelector("#student-names").split("\n");
-    const parents = document.querySelector("#parent-names").split("\n");
+    const students = document.querySelector("#student-names").value.split("\n");
+    const parents = document.querySelector("#parent-names").value.split("\n");
 
     if (students.length !== parents.length) {
       alert("Number of students and parents don't match!");
@@ -115,13 +115,20 @@ class Roster extends Component {
         .toString(36)
         .slice(-8);
 
-      const s_id = Math.random() * 99999999;
+      // const u_id = Math.random() * 99999999;
+      // const u2_id = Math.random() * 99999999;
+      const u_id = 90;
+      const u2_id = 91;
+
+      // const s_id = Math.random() * 99999999;
+      const s_id = 1;
 
       const p_username = parents[i].split(" ").join("");
       const p_password = Math.random()
         .toString(36)
         .slice(-8);
-      const p_id = Math.random() * 99999999;
+      // const p_id = Math.random() * 99999999;
+      const p_id = 2;
 
       const teacher_id = this.state.teacherId;
 
@@ -131,7 +138,7 @@ class Roster extends Component {
         password: s_password,
         parent: parents[i]
       });
-      
+
       parentArr.unshift({
         name: parents[i],
         username: p_username,
@@ -149,7 +156,7 @@ class Roster extends Component {
           name: students[i],
           login: s_username,
           password: s_password,
-          id: s_id
+          id: u_id
         })
       }).then(async () => {
         await fetch(`/api/new_student`, {
@@ -160,45 +167,47 @@ class Roster extends Component {
           },
           body: JSON.stringify({
             user: {
-              id: s_id
+              id: u_id
             },
+            id: s_id,
             parent: {
-              id: p_id
+              id: null
             },
             teacher: {
               id: teacher_id
             }
           })
-        });
-      });
-
-      await fetch(`/api/new_user`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: parents[i],
-          login: p_username,
-          password: p_password,
-          id: p_id
-        })
-      }).then(async () => {
-        await fetch(`/api/new_parent`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            user: {
-              id: p_id
+        }).then(async () => {
+          await fetch(`/api/new_user`, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
             },
-            student: {
-              id: s_id
-            }
-          })
+            body: JSON.stringify({
+              name: parents[i],
+              login: p_username,
+              password: p_password,
+              id: u2_id
+            })
+          }).then(async () => {
+            await fetch(`/api/new_parent`, {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                user: {
+                  id: u2_id
+                },
+                id: p_id,
+                student: {
+                  id: s_id
+                }
+              })
+            });
+          });
         });
       });
     }

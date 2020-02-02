@@ -15,6 +15,8 @@ import {
   Button
 } from "@material-ui/core";
 
+import { Link, withRouter } from "react-router-dom";
+
 /* Icons on the Landing page */
 import StudentLogo from "../svg/001-superhero.svg";
 import TeacherLogo from "../svg/002-superhero.svg";
@@ -90,7 +92,11 @@ const Hero = () => {
     setOpen({ teacherOpen: false });
   };
 
-  const handleSubmit = user => {};
+  const handleSubmit = user => {
+    if(user === 'Teacher') {
+      
+    }
+  };
 
   const classes = useStyles();
 
@@ -294,9 +300,11 @@ const Hero = () => {
             Close
           </Button>
           <Button
-            onClick={() => handleSubmit("parent")}
+            // onClick={() => handleSubmit("parent")}
+            component={Link}
             variant="contained"
             color="primary"
+            to={{ pathname: "/200/teacher/class-roster" }}
           >
             Login
           </Button>
@@ -338,9 +346,11 @@ const Hero = () => {
             Close
           </Button>
           <Button
-            onClick={handleSubmit("student")}
+            // onClick={handleSubmit("student")}]
+            component={Link}
             variant="contained"
             color="primary"
+            to={{ pathname: "/200/teacher/class-roster" }}
           >
             Login
           </Button>
@@ -381,10 +391,14 @@ const Hero = () => {
           >
             Close
           </Button>
+          <Link>
+          </Link>
           <Button
-            onClick={handleSubmit("teacher")}
+            // onClick={handleSubmit("teacher")}
+            component={Link}
             variant="contained"
             color="primary"
+            to={{ pathname: "/200/teacher/class-roster" }}
           >
             Login
           </Button>
