@@ -37,7 +37,7 @@ insert into announcement values (800, 'body', 'title', 200);
 -- id, date, subject, summary, title, total score, teacherid
 insert into assignment values (900, NULL, 1, 'add stuff', 'Simple Addition 1', 100, 200);
 insert into assignment values (901, NULL, 0, 'read gud 4 u', 'Simple Reading 1', 100, 200);
-insert into assignment values (902, NULL, 2, 'science of life', 'Simple Science 1', 100, 200);
+insert into assignment values (902, NULL, 0, 'science of life', 'Simple Science 1', 100, 200);
 
 -- id, score, submission_link, total_score, assignmentid, studentid
 insert into assignmentstudent values (1000, 100, 'sublink.com/maf', 100, 900, 100);

@@ -48,7 +48,7 @@ public AnnouncementController(AnnouncementRepository announcementRepository,
 	@PostMapping("/new_announcement")
 	ResponseEntity<Announcement> createAnnouncement(@Valid @RequestBody Announcement announcement) throws URISyntaxException{
 		Announcement result = announcementRepository.save(announcement);
-		return ResponseEntity.created(new URI("/api/announcement/" + result.getId())).body(result);
+		return ResponseEntity.ok().build();
 	}
 	
 	

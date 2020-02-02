@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import com.hackuci.potatoes.procuratio.repositories.ParentRepository;
 import com.hackuci.potatoes.procuratio.repositories.StudentRepository;
 
 @RestController
-@RequestMapping("/api/parent")
+@RequestMapping("/api/parents")
 public class ParentController {
 	private ParentRepository pRepo;
 	private StudentRepository sRepo;
@@ -25,6 +26,11 @@ public class ParentController {
 		super();
 		this.pRepo = pRepo;
 		this.sRepo = sRepo;
+	}
+	
+	@GetMapping("/")
+	ResponseEntity<?> getAllParents() {
+		return ResponseEntity.ok().body(pRepo.findAll());
 	}
 
 	@PutMapping("/{parentid}/{pairid}")

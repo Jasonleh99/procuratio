@@ -88,8 +88,8 @@ public class AssignmentController {
 			throws URISyntaxException {
 		AssignmentStudent result = asRepository.save(assignmentStudent);
 
-		recalculateGrade(assignmentStudent.getAssignment().getSubject(),
-				assignmentStudent.getAssignment().getTeacher());
+		recalculateGrade(result.getAssignment().getSubject(),
+				result.getAssignment().getTeacher());
 
 		return ResponseEntity
 				.created(new URI(
