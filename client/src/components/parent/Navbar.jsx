@@ -94,13 +94,6 @@ const Navbar = props => {
         >
           Notifications
         </MenuItem>
-        <MenuItem
-          component={Link}
-          to={{ pathname: prefix.concat("/contact") }}
-          className={classes.menuItem}
-        >
-          Contact Teacher
-        </MenuItem>
       </MenuList>
 
       <MenuList>

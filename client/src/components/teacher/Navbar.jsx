@@ -82,9 +82,6 @@ const Navbar = props => {
         >
           Notifications
         </MenuItem>
-        <MenuItem component={Link} to={{ pathname: prefix.concat("/contact") }}>
-          Messages
-        </MenuItem>
       </MenuList>
 
       <MenuList>
@@ -104,6 +101,10 @@ const Navbar = props => {
           Documents
         </MenuItem>
       </MenuList>
+
+      <MenuItem component={Link} to={{ pathname: "/" }}>
+        Logout
+      </MenuItem>
     </MenuList>
   );
 

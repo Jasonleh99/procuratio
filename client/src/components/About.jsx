@@ -5,12 +5,8 @@ import AboutLogo from "../svg/016-superhero.svg";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    maxHeight: "100%",
-    maxWidth: "100%",
+    width: "100%",
     height: "100%"
-  },
-  aboutHero: {
-    paddingTop: "5em"
   }
 }));
 
@@ -20,31 +16,44 @@ const About = () => {
   return (
     <Grid container className={classes.container}>
       <Grid item xs={1} />
-      <Grid item container xs={5} justify="center">
-        <Grid item container direction="column" justify="center">
-          <Typography variant="h1" style={{ marginBottom: "30px" }}>
+      <Grid item container justify="center">
+        <Grid item container direction="column" justify="center" xs={6}>
+          <Typography
+            variant="h2"
+            style={{
+              maxHeight: "100%",
+              maxWidth: "100%",
+              marginBottom: "30px"
+            }}
+          >
             <Box
               fontWeight="fontWeightBold"
-              m={1}
               style={{ height: "100%", margin: 0 }}
             >
+              About Us
+            </Box>
+          </Typography>
+          <Typography variant="h4">
+            <Box fontWeight="fontWeightBold" style={{ margin: 0 }}>
               It just got a whole lot easier to manage a classroom.
             </Box>
           </Typography>
-          <Typography variant="h3">
-            <Box fontWeight="fontWeightBold" m={1} style={{ margin: 0 }}>
-              An all-new classroom management system.
-            </Box>
-          </Typography>
-          <Typography variant="h3">
+          <Typography variant="h4">
             We connect elementary school teachers with students and parents to
             build amazing communities.
           </Typography>
         </Grid>
-      </Grid>
-      <Grid item xs={2} />
-      <Grid item container xs={3} justify="center">
-        <img className={classes.aboutHero} src={AboutLogo} width="520px" alt="about-logo"/>
+        <Grid item container justify="center" xs={4}>
+          <img
+            src={AboutLogo}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              paddingLeft: "10em"
+            }}
+            alt="about-logo"
+          />
+        </Grid>
       </Grid>
     </Grid>
   );

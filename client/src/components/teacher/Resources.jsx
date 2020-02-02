@@ -9,13 +9,16 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  IconButton
 } from "@material-ui/core";
 
 import FadeIn from "react-fade-in";
 
 import { withStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const CELL_COLOR = "#FFCCCC";
 
@@ -29,7 +32,6 @@ const styles = {
     width: "100%"
   },
   resourceCell: {
-    marginTop: 20,
     padding: 15,
     backgroundColor: CELL_COLOR
   },
@@ -84,6 +86,12 @@ class Resources extends Component {
     this.handleClose();
   };
 
+  handleDeleteResource = i => {
+    let array = [...this.state.resources];
+    array.splice(i, 1);
+    this.setState({ resources: array });
+  };
+
   render() {
     const { classes } = this.props;
     const { resources, teacherId, open } = this.state;
@@ -128,23 +136,38 @@ class Resources extends Component {
                   <Grid container>
                     <Grid item xs style={{ paddingBottom: "10px" }}>
                       {resources.map((resource, i) => (
-                        <Paper
-                          className={classes.resourceCell}
-                          key={"resourceCell_" + i}
+                        <Grid
+                          container
+                          alignItems="center"
+                          style={{ marginTop: 20 }}
                         >
-                          <Grid container direction="column">
-                            <Grid item xs>
-                              <Typography variant="h4">
-                                {resource.title}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs>
-                              <Typography variant="h6">
-                                {resource.body}
-                              </Typography>
-                            </Grid>
+                          <Grid item xs={11}>
+                            <Paper
+                              className={classes.resourceCell}
+                              key={"resourceCell_" + i}
+                            >
+                              <Grid container direction="column">
+                                <Grid item xs>
+                                  <Typography variant="h4">
+                                    {resource.title}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs>
+                                  <Typography variant="h6">
+                                    {resource.body}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </Paper>
                           </Grid>
-                        </Paper>
+                          <Grid item xs={1}>
+                            <IconButton
+                              onClick={() => this.handleDeleteResource(i)}
+                            >
+                              <DeleteIcon fontSize="large" />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
                       ))}
                     </Grid>
                   </Grid>
